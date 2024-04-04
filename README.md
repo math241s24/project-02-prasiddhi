@@ -1,3 +1,31 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/QLgpPTVo)
-# project-02
- template for project 2
+# Comparing Coffee Characteristics by Country of Origin
+
+## Reed College: Math 241 with Adrien Allorant - Data Science
+
+In the repo, there is:
+
+-   project-02.Rproj: This is the project environment. Opening the project through this file will prevent any data directory/file pathway issues.
+
+-   data: This folder contains
+
+    -   the three csv files with the coffee review data for each species from the Coffee Quality Institute, scrapped and cleaned by Github user @jldbc
+
+    -   an R Markdown file for data subsetting/wrangling
+
+-   qmd files: This folder contains
+
+    -   Initial proposal write-up
+
+    -   Final presentation slides
+
+    -   Final write-up document
+
+    -   An "about this project" document
+
+-   visualizations: This folder contains
+
+    -   An R Markdown file for non-map visualizations
+
+    -   An R Markdown file for map visualizations
+
+Author: Prasiddhi Thapaliya (\@prasiddth)

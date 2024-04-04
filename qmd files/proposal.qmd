@@ -38,7 +38,7 @@ The dimensions of the datasets all have 44 columns. The arabica dataset has 1311
 
 ```{r load-data, message = FALSE}
 library(readr)
-arabica <- read_csv("arabica_data_cleaned.csv")
+arabica <- read_csv("data/arabica_data_cleaned.csv")
 head(arabica)
 ```
 
