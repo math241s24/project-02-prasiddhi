@@ -1,0 +1,75 @@
+---
+title: "Project 2"
+subtitle: "Proposal"
+authors: "Prasiddhi Thapaliya"
+format: html
+editor: visual
+---
+
+```{r load-packages}
+#| label: load-pkgs
+#| message: false
+#| warning: false
+
+library(tidyverse)
+```
+
+### Research Question
+
+My project will be analyzing a coffee reviews dataset. I want to compare coffees from different countries to see which coffee characteristics are associated with places of origin.
+
+I'm curious to see if coffees grown in particular countries/regions produce different flavor profiles. To see which countries have which characteristic reviews, I will make an interactive choropleth map. Each country will be shaded on a world map according to its rating per quality category. The user should be able to switch between categories and see which areas have the darkest shading i.e. the best reviews. If possible, I'd like to do this for every quality category. At the least, I want to be able to select the five categories:
+
+-   Flavor
+
+-   Acidity
+
+-   Sweetness
+
+-   Aroma
+
+-   Total Cup Points (total quality score from 1-100)
+
+### Dataset
+
+In my analysis, I plan to use three cleaned csv files containing data from the Coffee Quality Institute. These datasets were scrapped and cleaned by Github user @jldbc. It contains informational variables on quality measures, bean metadata (such as processing method), and farm metadata (such as country of origin). The quality measures are reviews on characteristics converted to a numeric scale. These include traits such as aroma, acidity, and sweetness.
+
+The dimensions of the datasets all have 44 columns. The arabica dataset has 1311 rows, the robusta dataset has 28 rows, and the merged dataset has 1339 rows.
+
+```{r load-data, message = FALSE}
+library(readr)
+arabica <- read_csv("arabica_data_cleaned.csv")
+head(arabica)
+```
+
+I chose these datasets because the data is cleaned and ready to be used for analysis. Additionally, the author took the website's reviews and normalized them to a numeric scale, allowing it to be used for statistical analysis.
+
+### Weekly Plan
+
+Week 10: Submit project proposal
+
+-   Subset data and select which variables to use for analysis
+
+Week 11: Peer review of proposals
+
+-   Finish producing visualizations such as tables, boxplots, graphs, etc.
+
+-   Begin interactive map(s)
+
+Week 12: Peer review of code
+
+-   Finish interactive maps
+
+-   Finish making edits according to peer review feedback
+
+Week 13: Final Presentation
+
+-   Finish write-up to turn in by May 9th
+
+### Repository Organization
+
+My repo will have a data folder containing: the three csv files and an R Markdown file for subsetting.
+
+There will be a visualizations folder containing files for: non-map visualizations (plots, etc.) and another for the interactive maps. Depending on how the coding goes, I may make a separate file for each choropleth map.
+
+There will also be a folder containing the qmd files for: this project proposal, the presentation, the write-up, and any other necessary qmd files.

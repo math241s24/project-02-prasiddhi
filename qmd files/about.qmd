@@ -1,0 +1,7 @@
+---
+title: "Analyzing the effects of Measure 110 on Drug Related Offenses"
+format: html
+editor: visual
+---
+
+This project was developed by Prasiddhi Thapaliya for [MATH/STAT241](https://aallorant.github.io/math241s24/) at Reed College.
