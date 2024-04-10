@@ -1,8 +1,10 @@
 {
-  "hash": "db259544fb70801276df520cf81aea96",
+  "hash": "d65e8c9b69b4b0fc81ff8b09670c9d3d",
   "result": {
-    "markdown": "---\ntitle: \"Project title\"\nsubtitle: \"Project 2\"\nauthor: \"Team\"\ntitle-slide-attributes:\n  data-slide-number: none\nformat: revealjs\neditor: visual\nexecute:\n  echo: false\n---\n\n\n\n\n\n\n",
-    "supporting": [],
+    "markdown": "---\ntitle: \"Comparing Coffee Characteristics by Country of Origin\"\nsubtitle: \"Project 2\"\nauthor: \"Prasiddhi Thapaliya\"\ntitle-slide-attributes:\n  data-slide-number: none\nformat: revealjs\neditor: visual\nexecute:\n  echo: false\n---\n\n\n\n\n\n\n",
+    "supporting": [
+      "presentation_files"
+    ],
     "filters": [
       "rmarkdown/pagebreak.lua"
     ],

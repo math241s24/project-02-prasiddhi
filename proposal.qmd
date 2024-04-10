@@ -18,7 +18,7 @@ library(tidyverse)
 
 My project will be analyzing a coffee reviews dataset. I want to compare coffees from different countries to see which coffee characteristics are associated with places of origin.
 
-I'm curious to see if coffees grown in particular countries/regions produce different flavor profiles. To see which countries have which characteristic reviews, I will make an interactive choropleth map. Each country will be shaded on a world map according to its rating per quality category. The user should be able to switch between categories and see which areas have the darkest shading i.e. the best reviews. If possible, I'd like to do this for every quality category. At the least, I want to be able to select the five categories:
+I'm curious to see if coffees grown in particular countries/regions produce different flavor profiles. To see which countries have which characteristic reviews, I will make an interactive choropleth map on a Shinyapp. Each country will be shaded on a world map according to its rating per quality category. The user should be able to switch between categories and see which areas have the darkest shading i.e. the best reviews. If possible, I'd like to do this for every quality category. At the least, I want to be able to select the five categories:
 
 -   Flavor
 
@@ -38,7 +38,7 @@ The dimensions of the datasets all have 44 columns. The arabica dataset has 1311
 
 ```{r load-data, message = FALSE}
 library(readr)
-arabica <- read_csv("../data/arabica_data_cleaned.csv")
+arabica <- read_csv("data/arabica_data_cleaned.csv")
 head(arabica)
 ```
 
@@ -54,11 +54,11 @@ Week 11: Peer review of proposals
 
 -   Finish producing visualizations such as tables, boxplots, graphs, etc.
 
--   Begin interactive map(s)
+-   Begin interactive map(s) and Shinyapp
 
 Week 12: Peer review of code
 
--   Finish interactive maps
+-   Finish interactive maps and Shinyapp
 
 -   Finish making edits according to peer review feedback
 
@@ -68,8 +68,6 @@ Week 13: Final Presentation
 
 ### Repository Organization
 
-My repo will have a data folder containing: the three csv files and an R Markdown file for subsetting.
+My repo has a data folder containing: the three csv files and an R Markdown file for subsetting.
 
 There will be a visualizations folder containing files for: non-map visualizations (plots, etc.) and another for the interactive maps. Depending on how the coding goes, I may make a separate file for each choropleth map.
-
-There will also be a folder containing the qmd files for: this project proposal, the presentation, the write-up, and any other necessary qmd files.
