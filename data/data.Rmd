@@ -6,6 +6,7 @@ date: "2024-04-04"
 
 ```{r load csv}
 library(readr)
+library(tidyverse)
 arabica <- read_csv("arabica_data_cleaned.csv")
 robusta <- read_csv("robusta_data_cleaned.csv")
 merged <- read_csv("merged_data_cleaned.csv")
