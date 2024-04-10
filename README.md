@@ -12,16 +12,6 @@ In the repo, there is:
 
     -   an R Markdown file for data subsetting/wrangling
 
--   qmd files: This folder contains
-
-    -   Initial proposal write-up
-
-    -   Final presentation slides
-
-    -   Final write-up document
-
-    -   An "about this project" document
-
 -   visualizations: This folder contains
 
     -   An R Markdown file for non-map visualizations
