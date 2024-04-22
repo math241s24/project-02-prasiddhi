@@ -1,0 +1,41 @@
+---
+title: "Sweetness Mapping"
+output: pdf_document
+date: "2024-19-04"
+---
+
+```{r}
+library(tmap)
+library(sf)
+data("World")
+```
+
+```{r}
+countries <- World %>%
+  select(name) %>%
+  rename("Country of Origin" = name) #This gives me countries and their locations on the world map
+
+sweetness_mean <- sweetness %>%
+  filter(!is.na(`Country of Origin`)) %>% #One value didnt have a country paired so I removed it
+  group_by(`Country of Origin`) %>%
+  summarize(`Sweetness Mean` = mean(Sweetness)) #This gives me mean values for each country's Sweetness reviews
+
+sweetness_world <- merge(countries, sweetness_mean, by.x = "Country of Origin", by.y = "Country of Origin", all.x = TRUE) #This merges the mean values with countries so I can map them
+```
+
+```{r}
+min(sweetness_world$`Sweetness Mean`, na.rm = TRUE)
+max(sweetness_world$`Sweetness Mean`, na.rm = TRUE)
+
+coffee_palette <- c("#FFEBCD", "#D2B48C", "#8B4513")
+sweetness_breaks <- c(6.6, 7.2, 7.8, 8.4, 9.0, 9.6, 10)
+
+sweetness_tm <- tm_shape(sweetness_world) +
+  tm_polygons("Sweetness Mean", title = "Sweetness", palette = coffee_palette, 
+              breaks = sweetness_breaks, style = "quantile") +
+  tm_layout()
+
+
+tmap_mode("view")
+tmap_leaflet(sweetness_tm)
+```

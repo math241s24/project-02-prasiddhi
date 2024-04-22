@@ -1,10 +1,10 @@
 ---
-title: "Datasets"
+title: "Datasets and Exploration"
 output: pdf_document
 date: "2024-04-04"
 ---
 
-```{r load csv}
+```{r load csv, message = FALSE}
 library(readr)
 library(tidyverse)
 arabica <- read_csv("arabica_data_cleaned.csv")
@@ -15,5 +15,72 @@ dim(arabica)
 dim(robusta)
 dim(merged)
 ```
+
+```{r characteristic subsets}
+flavor <- arabica %>%
+  select(Country.of.Origin, Flavor) %>%
+  rename("Country of Origin" = Country.of.Origin)
+
+acidity <- arabica %>%
+  select(Country.of.Origin, Acidity) %>%
+  rename("Country of Origin" = Country.of.Origin)
+
+sweetness <- arabica %>%
+  select(Country.of.Origin, Sweetness) %>%
+  rename("Country of Origin" = Country.of.Origin)
+
+aroma <- arabica %>%
+  select(Country.of.Origin, Aroma) %>%
+  rename("Country of Origin" = Country.of.Origin)
+
+total <- arabica %>%
+  select(Country.of.Origin, Total.Cup.Points) %>%
+  rename("Country of Origin" = Country.of.Origin,
+         "Total Cup Points" = Total.Cup.Points)
+```
+
+```{r top ten tables}
+flavor_top10 <- flavor %>% 
+  slice_max(n = 10, order_by = Flavor)
+flavor_top10
+
+acidity_top10 <- acidity %>% 
+  slice_max(n = 10, order_by = Acidity)
+acidity_top10
+
+sweetness_top10 <- sweetness %>% 
+  slice_max(n = 10, order_by = Sweetness)
+sweetness_top10
+
+aroma_top10 <- aroma %>% 
+  slice_max(n = 10, order_by = Aroma)
+aroma_top10
+
+total_top10 <- total %>% 
+  slice_max(n = 10, order_by = `Total Cup Points`)
+total_top10
+
+```
+
+```{r}
+flavor_countries <- unique(flavor_top10$`Country of Origin`)
+aroma_countries <- unique(aroma_top10$`Country of Origin`)
+intersect(flavor_countries, aroma_countries)
+
+flavor_countries <- unique(flavor_top10$`Country of Origin`)
+sweetness_countries <- unique(sweetness_top10$`Country of Origin`)
+intersect(flavor_countries, sweetness_countries)
+
+flavor_countries <- unique(flavor_top10$`Country of Origin`)
+total_countries <- unique(total_top10$`Country of Origin`)
+intersect(flavor_countries, total_countries)
+
+flavor_countries <- unique(flavor_top10$`Country of Origin`)
+acidity_countries <- unique(acidity_top10$`Country of Origin`)
+intersect(flavor_countries, acidity_countries)
+```
+
+
+
 
 

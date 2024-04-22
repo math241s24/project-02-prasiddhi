@@ -1,0 +1,46 @@
+---
+title: "Flavor Mapping"
+output: pdf_document
+date: "2024-19-04"
+---
+
+```{r}
+library(tmap)
+library(sf)
+data("World")
+```
+
+```{r}
+countries <- World %>%
+  select(name) %>%
+  rename("Country of Origin" = name) #This gives me countries and their locations on the world map
+
+flavor_mean <- flavor %>%
+  filter(!is.na(`Country of Origin`)) %>% #One value didnt have a country paired so I removed it
+  group_by(`Country of Origin`) %>%
+  summarize(`Flavor Mean` = mean(Flavor)) #This gives me mean values for each country's flavor reviews
+
+flavor_world <- merge(countries, flavor_mean, by.x = "Country of Origin", by.y = "Country of Origin", all.x = TRUE) #This merges the mean values with countries so I can map them
+```
+
+```{r}
+min(flavor_world$`Flavor Mean`, na.rm = TRUE)
+max(flavor_world$`Flavor Mean`, na.rm = TRUE)
+
+coffee_palette <- c("#FFEBCD", "#D2B48C", "#8B4513")
+flavor_breaks <- c(6.9, 7.2, 7.6, 8.0, 8.4, 8.6)
+
+flavor_tm <- tm_shape(flavor_world) +
+  tm_polygons("Flavor Mean", title = "Flavor Mean", palette = coffee_palette, 
+              breaks = flavor_breaks, style = "quantile", id = "Flavor Mean") +
+  tm_text("Country of Origin", size = "AREA") +
+  tm_layout() +
+  tm_view(text.size.variable = TRUE)
+
+
+tmap_mode("view")
+tmap_leaflet(flavor_tm)
+```
+
+
+

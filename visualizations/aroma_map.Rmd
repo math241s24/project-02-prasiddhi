@@ -1,0 +1,44 @@
+---
+title: "Aroma Mapping"
+output: pdf_document
+date: "2024-19-04"
+---
+
+```{r}
+library(tmap)
+library(tidyverse)
+library(sf)
+data("World")
+```
+
+```{r}
+countries <- World %>%
+  select(name, iso_a3) %>%
+  rename("Country of Origin" = name) #This gives me countries and their locations on the world map
+
+aroma_mean <- aroma %>%
+  filter(!is.na(`Country of Origin`)) %>% #One value didnt have a country paired so I removed it
+  group_by(`Country of Origin`) %>%
+  summarize(`Aroma Mean` = mean(Aroma)) #This gives me mean values for each country's aroma reviews
+
+aroma_world <- merge(countries, aroma_mean, by.x = "Country of Origin", by.y = "Country of Origin", all.x = TRUE) #This merges the mean values with countries so I can map them
+```
+
+```{r}
+min(aroma_world$`Aroma Mean`, na.rm = TRUE)
+max(aroma_world$`Aroma Mean`, na.rm = TRUE)
+
+coffee_palette <- c("#FFEBCD", "#D2B48C", "#8B4513")
+aroma_breaks <- c(7.0, 7.3, 7.6, 7.9, 8.2, 8.4)
+
+aroma_tm <- tm_shape(aroma_world) +
+  tm_polygons("Aroma Mean", title = "Aroma", palette = coffee_palette, 
+              breaks = aroma_breaks, style = "quantile", id = "Aroma Mean") +
+  tm_text("iso_a3", size = "AREA", just = "center") +
+  tm_layout() +
+  tm_view(text.size.variable = TRUE)
+
+
+tmap_mode("view")
+tmap_leaflet(aroma_tm)
+```

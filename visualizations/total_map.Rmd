@@ -1,0 +1,41 @@
+---
+title: "Total Cup Points Mapping"
+output: pdf_document
+date: "2024-19-04"
+---
+
+```{r}
+library(tmap)
+library(sf)
+data("World")
+```
+
+```{r}
+countries <- World %>%
+  select(name) %>%
+  rename("Country of Origin" = name) #This gives me countries and their locations on the world map
+
+total_mean <- total %>%
+  filter(!is.na(`Country of Origin`)) %>% 
+  group_by(`Country of Origin`) %>%
+  summarize(`Total Cup Points Mean` = mean(`Total Cup Points`)) #This gives me mean values for each country's total cup points reviews
+
+total_world <- merge(countries, total_mean, by.x = "Country of Origin", by.y = "Country of Origin", all.x = TRUE) #This merges the mean values with countries so I can map them
+```
+
+```{r}
+min(total_world$`Total Cup Points Mean`, na.rm = TRUE)
+max(total_world$`Total Cup Points Mean`, na.rm = TRUE)
+
+coffee_palette <- c("#FFEBCD", "#D2B48C", "#8B4513")
+total_breaks <- c(76, 78, 80, 82, 84, 86)
+
+total_tm <- tm_shape(total_world) +
+  tm_polygons("Total Cup Points Mean", title = "Total Cup Points", palette = coffee_palette, 
+              breaks = total_breaks, style = "quantile") +
+  tm_layout()
+
+
+tmap_mode("view")
+tmap_leaflet(total_tm)
+```

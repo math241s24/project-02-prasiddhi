@@ -1,0 +1,41 @@
+---
+title: "Acidity Mapping"
+output: pdf_document
+date: "2024-19-04"
+---
+
+```{r}
+library(tmap)
+library(sf)
+data("World")
+```
+
+```{r}
+countries <- World %>%
+  select(name) %>%
+  rename("Country of Origin" = name) #This gives me countries and their locations on the world map
+
+acidity_mean <- acidity %>%
+  filter(!is.na(`Country of Origin`)) %>% #One value didnt have a country paired so I removed it
+  group_by(`Country of Origin`) %>%
+  summarize(`Acidity Mean` = mean(Acidity)) #This gives me mean values for each country's acidity reviews
+
+acidity_world <- merge(countries, acidity_mean, by.x = "Country of Origin", by.y = "Country of Origin", all.x = TRUE) #This merges the mean values with countries so I can map them
+```
+
+```{r}
+min(acidity_world$`Acidity Mean`, na.rm = TRUE)
+max(acidity_world$`Acidity Mean`, na.rm = TRUE)
+
+coffee_palette <- c("#FFEBCD", "#D2B48C", "#8B4513")
+acidity_breaks <- c(6.6, 7.0, 7.4, 7.8, 8.2, 8.4)
+
+acidity_tm <- tm_shape(acidity_world) +
+  tm_polygons("Acidity Mean", title = "Acidity", palette = coffee_palette, 
+              breaks = acidity_breaks, style = "quantile") +
+  tm_layout()
+
+
+tmap_mode("view")
+tmap_leaflet(acidity_tm)
+```
