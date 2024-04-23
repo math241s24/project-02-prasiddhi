@@ -29,6 +29,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto.css">
   <link href="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -326,7 +391,7 @@
 
 <section id="title-slide" data-slide-number="none" class="quarto-title-block center">
   <h1 class="title">Comparing Coffee Characteristics by Country of Origin</h1>
-  <p class="subtitle">Project 2</p>
+  <p class="subtitle">Using tmap and ShinyApp</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -337,8 +402,404 @@ Prasiddhi Thapaliya
 </div>
 
 </section>
-<section class="slide level2">
-
+<section id="research-question" class="slide level2 smaller">
+<h2>Research Question</h2>
+<h4 id="are-certain-countries-associated-with-certain-coffee-characteristics">Are certain countries associated with certain coffee characteristics?</h4>
+<p>I want to compare coffees from different countries to see which coffee characteristics are associated with places of origin.</p>
+<p>I’m curious to see if coffees grown in particular countries/regions produce different flavor profiles. I made a Shinyapp that allows users to choose variables to be mapped onto a chloropleth world map. I chose the following five flavor traits:</p>
+<ul>
+<li><p>Flavor</p></li>
+<li><p>Acidity</p></li>
+<li><p>Sweetness</p></li>
+<li><p>Aroma</p></li>
+<li><p>Total Cup Points (total quality score from 1-100)</p></li>
+</ul>
+</section>
+<section id="the-data" class="slide level2">
+<h2>The Data</h2>
+<h5 id="scrapped-and-cleaned-by-github-user-jldbc">scrapped and cleaned by Github user <span class="citation" data-cites="jldbc">@jldbc</span></h5>
+<ul>
+<li><p>Three csv files containing consumer reviews from the Coffee Quality Institute</p>
+<ul>
+<li>Arabica, Robusta, both (merged)</li>
+</ul></li>
+<li><p>Informational variables on</p>
+<ul>
+<li><p>quality measures</p></li>
+<li><p>bean data (such as processing method),</p></li>
+<li><p>farm data (such as altitude), etc.</p></li>
+</ul></li>
+<li><p>Reviews were mix of qualitative and quantitative, converted to numeric scale.</p></li>
+</ul>
+</section>
+<section id="the-data-1" class="slide level2">
+<h2>The Data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>arabica <span class="sc">%&gt;%</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>  <span class="fu">select</span>(Country.of.Origin, Acidity, Aroma, Flavor, Sweetness, Total.Cup.Points)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,311 × 6
+   Country.of.Origin Acidity Aroma Flavor Sweetness Total.Cup.Points
+   &lt;chr&gt;               &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;
+ 1 Ethiopia             8.75  8.67   8.83     10                90.6
+ 2 Ethiopia             8.58  8.75   8.67     10                89.9
+ 3 Guatemala            8.42  8.42   8.5      10                89.8
+ 4 Ethiopia             8.42  8.17   8.58     10                89  
+ 5 Ethiopia             8.5   8.25   8.5      10                88.8
+ 6 Brazil               8.5   8.58   8.42     10                88.8
+ 7 Peru                 8.5   8.42   8.5      10                88.8
+ 8 Ethiopia             8.42  8.25   8.33      9.33             88.7
+ 9 Ethiopia             8.42  8.67   8.67      9.33             88.4
+10 Ethiopia             8.5   8.08   8.58     10                88.2
+# ℹ 1,301 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="top-ten-arabica" class="slide level2">
+<h2>Top Ten (Arabica)</h2>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Acidity</a></li><li><a href="#tabset-1-2">Aroma</a></li><li><a href="#tabset-1-3">Flavor</a></li><li><a href="#tabset-1-4">Sweetness</a></li><li><a href="#tabset-1-5">Total</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 15 × 2
+   Acidity Country.of.Origin
+     &lt;dbl&gt; &lt;chr&gt;            
+ 1    8.75 Ethiopia         
+ 2    8.58 Ethiopia         
+ 3    8.5  Ethiopia         
+ 4    8.5  Brazil           
+ 5    8.5  Peru             
+ 6    8.5  Ethiopia         
+ 7    8.5  Ethiopia         
+ 8    8.5  United States    
+ 9    8.5  Kenya            
+10    8.42 Guatemala        
+11    8.42 Ethiopia         
+12    8.42 Ethiopia         
+13    8.42 Ethiopia         
+14    8.42 United States    
+15    8.42 Thailand         </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 16 × 2
+   Aroma Country.of.Origin           
+   &lt;dbl&gt; &lt;chr&gt;                       
+ 1  8.75 Ethiopia                    
+ 2  8.67 Ethiopia                    
+ 3  8.67 Ethiopia                    
+ 4  8.58 Brazil                      
+ 5  8.5  Brazil                      
+ 6  8.5  Brazil                      
+ 7  8.5  Brazil                      
+ 8  8.42 Guatemala                   
+ 9  8.42 Peru                        
+10  8.42 China                       
+11  8.42 Ethiopia                    
+12  8.42 Uganda                      
+13  8.42 Tanzania, United Republic Of
+14  8.42 Brazil                      
+15  8.42 Ethiopia                    
+16  8.42 El Salvador                 </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-3">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 2
+   Flavor Country.of.Origin
+    &lt;dbl&gt; &lt;chr&gt;            
+ 1   8.83 Ethiopia         
+ 2   8.67 Ethiopia         
+ 3   8.67 Ethiopia         
+ 4   8.67 Ethiopia         
+ 5   8.67 United States    
+ 6   8.58 Ethiopia         
+ 7   8.58 Ethiopia         
+ 8   8.5  Guatemala        
+ 9   8.5  Ethiopia         
+10   8.5  Peru             
+11   8.5  United States    
+12   8.5  Brazil           </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-4">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,218 × 2
+   Sweetness Country.of.Origin
+       &lt;dbl&gt; &lt;chr&gt;            
+ 1        10 Ethiopia         
+ 2        10 Ethiopia         
+ 3        10 Guatemala        
+ 4        10 Ethiopia         
+ 5        10 Ethiopia         
+ 6        10 Brazil           
+ 7        10 Peru             
+ 8        10 Ethiopia         
+ 9        10 Ethiopia         
+10        10 United States    
+# ℹ 1,208 more rows</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-5">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 2
+   Total.Cup.Points Country.of.Origin
+              &lt;dbl&gt; &lt;chr&gt;            
+ 1             90.6 Ethiopia         
+ 2             89.9 Ethiopia         
+ 3             89.8 Guatemala        
+ 4             89   Ethiopia         
+ 5             88.8 Ethiopia         
+ 6             88.8 Brazil           
+ 7             88.8 Peru             
+ 8             88.7 Ethiopia         
+ 9             88.4 Ethiopia         
+10             88.2 Ethiopia         </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="top-ten-robusta" class="slide level2">
+<h2>Top Ten (Robusta)</h2>
+<div class="panel-tabset">
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Acidity</a></li><li><a href="#tabset-2-2">Aroma</a></li><li><a href="#tabset-2-3">Flavor</a></li><li><a href="#tabset-2-4">Sweetness</a></li><li><a href="#tabset-2-5">Total</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 2
+   Salt...Acid Country.of.Origin
+         &lt;dbl&gt; &lt;chr&gt;            
+ 1        8    India            
+ 2        8    India            
+ 3        8    India            
+ 4        7.92 Uganda           
+ 5        7.83 India            
+ 6        7.83 India            
+ 7        7.83 Uganda           
+ 8        7.83 Uganda           
+ 9        7.83 India            
+10        7.83 India            </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-2-2">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 2
+   Fragrance...Aroma Country.of.Origin
+               &lt;dbl&gt; &lt;chr&gt;            
+ 1              8.33 Uganda           
+ 2              8    India            
+ 3              8    Uganda           
+ 4              8    India            
+ 5              8    Uganda           
+ 6              8    Uganda           
+ 7              7.92 India            
+ 8              7.92 United States    
+ 9              7.83 Uganda           
+10              7.83 Uganda           </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-2-3">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 14 × 2
+   Flavor Country.of.Origin
+    &lt;dbl&gt; &lt;chr&gt;            
+ 1   8.08 Uganda           
+ 2   7.92 Uganda           
+ 3   7.92 India            
+ 4   7.92 Uganda           
+ 5   7.83 India            
+ 6   7.83 Uganda           
+ 7   7.83 Uganda           
+ 8   7.83 India            
+ 9   7.75 India            
+10   7.75 India            
+11   7.75 India            
+12   7.75 India            
+13   7.75 Uganda           
+14   7.75 India            </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-2-4">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 15 × 2
+   Bitter...Sweet Country.of.Origin
+            &lt;dbl&gt; &lt;chr&gt;            
+ 1           8.42 Ecuador          
+ 2           8    Uganda           
+ 3           8    India            
+ 4           8    India            
+ 5           7.92 India            
+ 6           7.92 India            
+ 7           7.83 India            
+ 8           7.83 India            
+ 9           7.75 Uganda           
+10           7.75 India            
+11           7.75 Uganda           
+12           7.75 India            
+13           7.75 Uganda           
+14           7.75 Uganda           
+15           7.75 Ecuador          </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-2-5">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 2
+   Total.Cup.Points Country.of.Origin
+              &lt;dbl&gt; &lt;chr&gt;            
+ 1             83.8 Uganda           
+ 2             83.5 India            
+ 3             83.2 India            
+ 4             83   Uganda           
+ 5             83   Uganda           
+ 6             82.8 India            
+ 7             82.6 India            
+ 8             82.5 India            
+ 9             82.5 India            
+10             82.4 Uganda           </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="top-ten-merged" class="slide level2">
+<h2>Top Ten (Merged)</h2>
+<div class="panel-tabset">
+<ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1">Acidity</a></li><li><a href="#tabset-3-2">Aroma</a></li><li><a href="#tabset-3-3">Flavor</a></li><li><a href="#tabset-3-4">Sweetness</a></li><li><a href="#tabset-3-5">Total</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 15 × 2
+   Acidity Country.of.Origin
+     &lt;dbl&gt; &lt;chr&gt;            
+ 1    8.75 Ethiopia         
+ 2    8.58 Ethiopia         
+ 3    8.5  Ethiopia         
+ 4    8.5  Brazil           
+ 5    8.5  Peru             
+ 6    8.5  Ethiopia         
+ 7    8.5  Ethiopia         
+ 8    8.5  United States    
+ 9    8.5  Kenya            
+10    8.42 Guatemala        
+11    8.42 Ethiopia         
+12    8.42 Ethiopia         
+13    8.42 Ethiopia         
+14    8.42 United States    
+15    8.42 Thailand         </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-3-2">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 16 × 2
+   Aroma Country.of.Origin           
+   &lt;dbl&gt; &lt;chr&gt;                       
+ 1  8.75 Ethiopia                    
+ 2  8.67 Ethiopia                    
+ 3  8.67 Ethiopia                    
+ 4  8.58 Brazil                      
+ 5  8.5  Brazil                      
+ 6  8.5  Brazil                      
+ 7  8.5  Brazil                      
+ 8  8.42 Guatemala                   
+ 9  8.42 Peru                        
+10  8.42 China                       
+11  8.42 Ethiopia                    
+12  8.42 Uganda                      
+13  8.42 Tanzania, United Republic Of
+14  8.42 Brazil                      
+15  8.42 Ethiopia                    
+16  8.42 El Salvador                 </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-3-3">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 2
+   Flavor Country.of.Origin
+    &lt;dbl&gt; &lt;chr&gt;            
+ 1   8.83 Ethiopia         
+ 2   8.67 Ethiopia         
+ 3   8.67 Ethiopia         
+ 4   8.67 Ethiopia         
+ 5   8.67 United States    
+ 6   8.58 Ethiopia         
+ 7   8.58 Ethiopia         
+ 8   8.5  Guatemala        
+ 9   8.5  Ethiopia         
+10   8.5  Peru             
+11   8.5  United States    
+12   8.5  Brazil           </code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-3-4">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,218 × 2
+   Sweetness Country.of.Origin
+       &lt;dbl&gt; &lt;chr&gt;            
+ 1        10 Ethiopia         
+ 2        10 Ethiopia         
+ 3        10 Guatemala        
+ 4        10 Ethiopia         
+ 5        10 Ethiopia         
+ 6        10 Brazil           
+ 7        10 Peru             
+ 8        10 Ethiopia         
+ 9        10 Ethiopia         
+10        10 United States    
+# ℹ 1,208 more rows</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-3-5">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 2
+   Total.Cup.Points Country.of.Origin
+              &lt;dbl&gt; &lt;chr&gt;            
+ 1             90.6 Ethiopia         
+ 2             89.9 Ethiopia         
+ 3             89.8 Guatemala        
+ 4             89   Ethiopia         
+ 5             88.8 Ethiopia         
+ 6             88.8 Brazil           
+ 7             88.8 Peru             
+ 8             88.7 Ethiopia         
+ 9             88.4 Ethiopia         
+10             88.2 Ethiopia         </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 
 <div class="footer footer-default">
 
@@ -555,6 +1016,44 @@ Prasiddhi Thapaliya
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {

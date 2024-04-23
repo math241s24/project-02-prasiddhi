@@ -4,38 +4,96 @@ output: pdf_document
 date: "2024-19-04"
 ---
 
-```{r}
+```{r message = F}
 library(tmap)
 library(sf)
 data("World")
 ```
 
-```{r}
+```{r arabica tables}
 countries <- World %>%
-  select(name) %>%
+  select(name, iso_a3) %>%
   rename("Country of Origin" = name) #This gives me countries and their locations on the world map
 
-total_mean <- total %>%
+total_mean_arabica <- total_arabica %>%
   filter(!is.na(`Country of Origin`)) %>% 
   group_by(`Country of Origin`) %>%
   summarize(`Total Cup Points Mean` = mean(`Total Cup Points`)) #This gives me mean values for each country's total cup points reviews
 
-total_world <- merge(countries, total_mean, by.x = "Country of Origin", by.y = "Country of Origin", all.x = TRUE) #This merges the mean values with countries so I can map them
+total_world_arabica <- merge(countries, total_mean_arabica, by.x = "Country of Origin", by.y = "Country of Origin", all.x = TRUE) #This merges the mean values with countries so I can map them
 ```
 
-```{r}
-min(total_world$`Total Cup Points Mean`, na.rm = TRUE)
-max(total_world$`Total Cup Points Mean`, na.rm = TRUE)
+```{r arabica mapping}
+min(total_world_arabica$`Total Cup Points Mean`, na.rm = TRUE)
+max(total_world_arabica$`Total Cup Points Mean`, na.rm = TRUE)
 
 coffee_palette <- c("#FFEBCD", "#D2B48C", "#8B4513")
 total_breaks <- c(76, 78, 80, 82, 84, 86)
 
-total_tm <- tm_shape(total_world) +
-  tm_polygons("Total Cup Points Mean", title = "Total Cup Points", palette = coffee_palette, 
-              breaks = total_breaks, style = "quantile") +
-  tm_layout()
+total_tm_arabica <- tm_shape(total_world_arabica) +
+  tm_polygons("Total Cup Points Mean", title = "Total Cup Points (Arabica)", palette = coffee_palette, 
+              breaks = total_breaks, style = "quantile", id = "iso_a3") +
+  tm_text("iso_a3", size = "AREA", just = "center") +
+  tm_layout() +
+  tm_view(text.size.variable = TRUE)
 
 
 tmap_mode("view")
-tmap_leaflet(total_tm)
+tmap_leaflet(total_tm_arabica)
+```
+
+```{r robusta tables}
+total_mean_robusta <- total_robusta %>%
+  filter(!is.na(`Country of Origin`)) %>% 
+  group_by(`Country of Origin`) %>%
+  summarize(`Total Cup Points Mean` = mean(`Total Cup Points`)) #This gives me mean values for each country's total cup points reviews
+
+total_world_robusta <- merge(countries, total_mean_robusta, by.x = "Country of Origin", by.y = "Country of Origin", all.x = TRUE) #This merges the mean values with countries so I can map them
+```
+
+```{r robusta mapping}
+min(total_world_robusta$`Total Cup Points Mean`, na.rm = TRUE)
+max(total_world_robusta$`Total Cup Points Mean`, na.rm = TRUE)
+
+coffee_palette <- c("#FFEBCD", "#D2B48C", "#8B4513")
+total_breaks_robusta <- c(73, 75, 77, 79, 81, 83)
+
+total_tm_robusta <- tm_shape(total_world_robusta) +
+  tm_polygons("Total Cup Points Mean", title = "Total Cup Points (Robusta)", palette = coffee_palette, 
+              breaks = total_breaks_robusta, style = "quantile", id = "iso_a3") +
+  tm_text("iso_a3", size = "AREA", just = "center") +
+  tm_layout() +
+  tm_view(text.size.variable = TRUE)
+
+
+tmap_mode("view")
+tmap_leaflet(total_tm_robusta)
+```
+
+```{r merged tables}
+total_mean_merged <- total_merged %>%
+  filter(!is.na(`Country of Origin`)) %>% 
+  group_by(`Country of Origin`) %>%
+  summarize(`Total Cup Points Mean` = mean(`Total Cup Points`)) #This gives me mean values for each country's total cup points reviews
+
+total_world_merged <- merge(countries, total_mean_merged, by.x = "Country of Origin", by.y = "Country of Origin", all.x = TRUE) #This merges the mean values with countries so I can map them
+```
+
+```{r merged mapping}
+min(total_world_merged$`Total Cup Points Mean`, na.rm = TRUE)
+max(total_world_merged$`Total Cup Points Mean`, na.rm = TRUE)
+
+coffee_palette <- c("#FFEBCD", "#D2B48C", "#8B4513")
+total_breaks_merged <- c(77, 78, 80, 82, 84, 86)
+
+total_tm_merged <- tm_shape(total_world_merged) +
+  tm_polygons("Total Cup Points Mean", title = "Total Cup Points (Merged)", palette = coffee_palette, 
+              breaks = total_breaks_merged, style = "quantile", id = "iso_a3") +
+  tm_text("iso_a3", size = "AREA", just = "center") +
+  tm_layout() +
+  tm_view(text.size.variable = TRUE)
+
+
+tmap_mode("view")
+tmap_leaflet(total_tm_merged)
 ```

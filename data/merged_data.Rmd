@@ -1,0 +1,59 @@
+---
+title: "Exploring Merged Data"
+output: pdf_document
+date: "2024-04-04"
+---
+
+```{r load csv, message = FALSE}
+library(readr)
+library(tidyverse)
+merged <- read_csv("merged_data_cleaned.csv")
+
+dim(merged)
+```
+
+```{r characteristic subsets}
+flavor_merged <- merged %>%
+  select(Country.of.Origin, Flavor) %>%
+  rename("Country of Origin" = Country.of.Origin)
+
+acidity_merged <- merged %>%
+  select(Country.of.Origin, Acidity) %>%
+  rename("Country of Origin" = Country.of.Origin)
+
+sweetness_merged <- merged %>%
+  select(Country.of.Origin, Sweetness) %>%
+  rename("Country of Origin" = Country.of.Origin)
+
+aroma_merged <- merged %>%
+  select(Country.of.Origin, Aroma) %>%
+  rename("Country of Origin" = Country.of.Origin)
+
+total_merged <- merged %>%
+  select(Country.of.Origin, Total.Cup.Points) %>%
+  rename("Country of Origin" = Country.of.Origin,
+         "Total Cup Points" = Total.Cup.Points)
+```
+
+```{r top ten tables}
+flavor_top10 <- flavor_merged %>% 
+  slice_max(n = 10, order_by = Flavor)
+flavor_top10
+
+acidity_top10 <- acidity_merged %>% 
+  slice_max(n = 10, order_by = Acidity)
+acidity_top10
+
+sweetness_top10 <- sweetness_merged %>% 
+  slice_max(n = 10, order_by = Sweetness)
+sweetness_top10
+
+aroma_top10 <- aroma_merged %>% 
+  slice_max(n = 10, order_by = Aroma)
+aroma_top10
+
+total_top10 <- total_merged %>% 
+  slice_max(n = 10, order_by = `Total Cup Points`)
+total_top10
+
+```

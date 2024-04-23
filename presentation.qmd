@@ -1,6 +1,6 @@
 ---
 title: "Comparing Coffee Characteristics by Country of Origin"
-subtitle: "Project 2"
+subtitle: "Using tmap and ShinyApp"
 author: "Prasiddhi Thapaliya"
 title-slide-attributes:
   data-slide-number: none
@@ -10,28 +10,181 @@ execute:
   echo: false
 ---
 
-```{r}
-#| label: load-packages
-#| include: false
+## Research Question {.smaller}
 
+#### Are certain countries associated with certain coffee characteristics?
+
+I want to compare coffees from different countries to see which coffee characteristics are associated with places of origin.
+
+I'm curious to see if coffees grown in particular countries/regions produce different flavor profiles. I made a Shinyapp that allows users to choose variables to be mapped onto a chloropleth world map. I chose the following five flavor traits:
+
+-   Flavor
+
+-   Acidity
+
+-   Sweetness
+
+-   Aroma
+
+-   Total Cup Points (total quality score from 1-100)
+
+## The Data
+
+##### scrapped and cleaned by Github user @jldbc
+
+-   Three csv files containing consumer reviews from the Coffee Quality Institute
+
+    -   Arabica, Robusta, both (merged)
+
+-   Informational variables on
+
+    -   quality measures
+
+    -   bean data (such as processing method),
+
+    -   farm data (such as altitude), etc.
+
+-   Reviews were mix of qualitative and quantitative, converted to numeric scale.
+
+## The Data
+
+```{r importing data, echo = FALSE, include = FALSE}
 library(tidyverse)
+arabica <- read_csv("data/arabica_data_cleaned.csv")
+robusta <- read_csv("data/robusta_data_cleaned.csv")
+merged <- read_csv("data/merged_data_cleaned.csv")
 ```
+
+```{r glimpse average, echo = T}
+arabica %>%
+  select(Country.of.Origin, Acidity, Aroma, Flavor, Sweetness, Total.Cup.Points)
+```
+
+## Top Ten (Arabica)
+
+::: {.panel-tabset}
+
+### Acidity
 
 ```{r}
-#| label: setup
-#| include: false
-
-# For better figure resolution
-knitr::opts_chunk$set(
-  fig.retina = 3, 
-  dpi = 300, 
-  fig.width = 6, 
-  fig.asp = 0.618, 
-  out.width = "70%"
-  )
+arabica %>%
+  select(Acidity, Country.of.Origin) %>%
+  slice_max(n = 10, order_by = Acidity)
 ```
+
+### Aroma
 
 ```{r}
-#| label: load-data
-#| include: false
+arabica %>%
+  select(Aroma, Country.of.Origin) %>%
+  slice_max(n = 10, order_by = Aroma)
 ```
+
+### Flavor
+
+```{r}
+arabica %>%
+  select(Flavor, Country.of.Origin) %>%
+  slice_max(n = 10, order_by = Flavor)
+```
+
+### Sweetness
+```{r}
+arabica %>%
+  select(Sweetness, Country.of.Origin) %>%
+  slice_max(n = 10, order_by = Sweetness)
+```
+
+### Total
+```{r}
+arabica %>%
+  select(Total.Cup.Points, Country.of.Origin) %>%
+  slice_max(n = 10, order_by = Total.Cup.Points)
+```
+:::
+
+## Top Ten (Robusta)
+
+::: {.panel-tabset}
+
+### Acidity
+
+```{r}
+robusta %>%
+  select(Salt...Acid, Country.of.Origin) %>%
+  slice_max(n = 10, order_by = Salt...Acid)
+```
+
+### Aroma
+
+```{r}
+robusta %>%
+  select(Fragrance...Aroma, Country.of.Origin) %>%
+  slice_max(n = 10, order_by = Fragrance...Aroma)
+```
+
+### Flavor
+
+```{r}
+robusta %>%
+  select(Flavor, Country.of.Origin) %>%
+  slice_max(n = 10, order_by = Flavor)
+```
+
+### Sweetness
+```{r}
+robusta %>%
+  select(Bitter...Sweet, Country.of.Origin) %>%
+  slice_max(n = 10, order_by = Bitter...Sweet)
+```
+
+### Total
+```{r}
+robusta %>%
+  select(Total.Cup.Points, Country.of.Origin) %>%
+  slice_max(n = 10, order_by = Total.Cup.Points)
+```
+:::
+
+## Top Ten (Merged)
+
+::: {.panel-tabset}
+
+### Acidity
+
+```{r}
+merged %>%
+  select(Acidity, Country.of.Origin) %>%
+  slice_max(n = 10, order_by = Acidity)
+```
+
+### Aroma
+
+```{r}
+merged %>%
+  select(Aroma, Country.of.Origin) %>%
+  slice_max(n = 10, order_by = Aroma)
+```
+
+### Flavor
+
+```{r}
+merged %>%
+  select(Flavor, Country.of.Origin) %>%
+  slice_max(n = 10, order_by = Flavor)
+```
+
+### Sweetness
+```{r}
+merged %>%
+  select(Sweetness, Country.of.Origin) %>%
+  slice_max(n = 10, order_by = Sweetness)
+```
+
+### Total
+```{r}
+merged %>%
+  select(Total.Cup.Points, Country.of.Origin) %>%
+  slice_max(n = 10, order_by = Total.Cup.Points)
+```
+:::

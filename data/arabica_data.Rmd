@@ -1,5 +1,5 @@
 ---
-title: "Datasets and Exploration"
+title: "Exploring Arabica Data"
 output: pdf_document
 date: "2024-04-04"
 ---
@@ -8,55 +8,51 @@ date: "2024-04-04"
 library(readr)
 library(tidyverse)
 arabica <- read_csv("arabica_data_cleaned.csv")
-robusta <- read_csv("robusta_data_cleaned.csv")
-merged <- read_csv("merged_data_cleaned.csv")
 
 dim(arabica)
-dim(robusta)
-dim(merged)
 ```
 
 ```{r characteristic subsets}
-flavor <- arabica %>%
+flavor_arabica <- arabica %>%
   select(Country.of.Origin, Flavor) %>%
   rename("Country of Origin" = Country.of.Origin)
 
-acidity <- arabica %>%
+acidity_arabica <- arabica %>%
   select(Country.of.Origin, Acidity) %>%
   rename("Country of Origin" = Country.of.Origin)
 
-sweetness <- arabica %>%
+sweetness_arabica <- arabica %>%
   select(Country.of.Origin, Sweetness) %>%
   rename("Country of Origin" = Country.of.Origin)
 
-aroma <- arabica %>%
+aroma_arabica <- arabica %>%
   select(Country.of.Origin, Aroma) %>%
   rename("Country of Origin" = Country.of.Origin)
 
-total <- arabica %>%
+total_arabica <- arabica %>%
   select(Country.of.Origin, Total.Cup.Points) %>%
   rename("Country of Origin" = Country.of.Origin,
          "Total Cup Points" = Total.Cup.Points)
 ```
 
 ```{r top ten tables}
-flavor_top10 <- flavor %>% 
+flavor_top10 <- flavor_arabica %>% 
   slice_max(n = 10, order_by = Flavor)
 flavor_top10
 
-acidity_top10 <- acidity %>% 
+acidity_top10 <- acidity_arabica %>% 
   slice_max(n = 10, order_by = Acidity)
 acidity_top10
 
-sweetness_top10 <- sweetness %>% 
+sweetness_top10 <- sweetness_arabica %>% 
   slice_max(n = 10, order_by = Sweetness)
 sweetness_top10
 
-aroma_top10 <- aroma %>% 
+aroma_top10 <- aroma_arabica %>% 
   slice_max(n = 10, order_by = Aroma)
 aroma_top10
 
-total_top10 <- total %>% 
+total_top10 <- total_arabica %>% 
   slice_max(n = 10, order_by = `Total Cup Points`)
 total_top10
 

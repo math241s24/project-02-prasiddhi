@@ -4,43 +4,104 @@ output: pdf_document
 date: "2024-19-04"
 ---
 
-```{r}
+```{r message = F}
 library(tmap)
 library(sf)
 data("World")
 ```
 
-```{r}
+```{r arabica tables}
 countries <- World %>%
-  select(name) %>%
+  select(name, iso_a3) %>%
   rename("Country of Origin" = name) #This gives me countries and their locations on the world map
 
-flavor_mean <- flavor %>%
+flavor_mean_arabica <- flavor_arabica %>%
   filter(!is.na(`Country of Origin`)) %>% #One value didnt have a country paired so I removed it
   group_by(`Country of Origin`) %>%
   summarize(`Flavor Mean` = mean(Flavor)) #This gives me mean values for each country's flavor reviews
 
-flavor_world <- merge(countries, flavor_mean, by.x = "Country of Origin", by.y = "Country of Origin", all.x = TRUE) #This merges the mean values with countries so I can map them
+flavor_world_arabica <- merge(countries, flavor_mean_arabica, by.x = "Country of Origin", by.y = "Country of Origin", all.x = TRUE) #This merges the mean values with countries so I can map them
 ```
 
-```{r}
-min(flavor_world$`Flavor Mean`, na.rm = TRUE)
-max(flavor_world$`Flavor Mean`, na.rm = TRUE)
+```{r arabica mapping}
+min(flavor_world_arabica$`Flavor Mean`, na.rm = TRUE)
+max(flavor_world_arabica$`Flavor Mean`, na.rm = TRUE)
 
 coffee_palette <- c("#FFEBCD", "#D2B48C", "#8B4513")
 flavor_breaks <- c(6.9, 7.2, 7.6, 8.0, 8.4, 8.6)
 
-flavor_tm <- tm_shape(flavor_world) +
-  tm_polygons("Flavor Mean", title = "Flavor Mean", palette = coffee_palette, 
+flavor_tm_arabica <- tm_shape(flavor_world_arabica) +
+  tm_polygons("Flavor Mean", title = "Flavor (Arabica)", palette = coffee_palette, 
               breaks = flavor_breaks, style = "quantile", id = "Flavor Mean") +
-  tm_text("Country of Origin", size = "AREA") +
+  tm_text("iso_a3", size = "AREA", just = "center") +
   tm_layout() +
   tm_view(text.size.variable = TRUE)
 
 
 tmap_mode("view")
-tmap_leaflet(flavor_tm)
+tmap_leaflet(flavor_tm_arabica)
 ```
+
+
+```{r robusta tables}
+flavor_mean_robusta <- flavor_robusta %>%
+  filter(!is.na(`Country of Origin`)) %>% 
+  group_by(`Country of Origin`) %>%
+  summarize(`Flavor Mean` = mean(Flavor)) #This gives me mean values for each country's flavor reviews
+
+flavor_world_robusta <- merge(countries, flavor_mean_robusta, by.x = "Country of Origin", by.y = "Country of Origin", all.x = TRUE) #This merges the mean values with countries so I can map them
+```
+
+```{r robusta mapping}
+min(flavor_world_robusta$`Flavor Mean`, na.rm = TRUE)
+max(flavor_world_robusta$`Flavor Mean`, na.rm = TRUE)
+
+coffee_palette <- c("#FFEBCD", "#D2B48C", "#8B4513")
+flavor_breaks_robusta <- c(6.6, 6.9, 7.1, 7.3, 7.5, 7.8)
+
+flavor_tm_robusta <- tm_shape(flavor_world_robusta) +
+  tm_polygons("Flavor Mean", title = "Flavor (Robusta)", palette = coffee_palette, 
+              breaks = flavor_breaks, style = "quantile", id = "Flavor Mean") +
+  tm_text("iso_a3", size = "AREA", just = "center") +
+  tm_layout() +
+  tm_view(text.size.variable = TRUE)
+
+
+tmap_mode("view")
+tmap_leaflet(flavor_tm_robusta)
+```
+
+
+```{r merged tables}
+flavor_mean_merged <- flavor_merged %>%
+  filter(!is.na(`Country of Origin`)) %>% 
+  group_by(`Country of Origin`) %>%
+  summarize(`Flavor Mean` = mean(Flavor)) #This gives me mean values for each country's flavor reviews
+
+flavor_world_merged <- merge(countries, flavor_mean_merged, by.x = "Country of Origin", by.y = "Country of Origin", all.x = TRUE) #This merges the mean values with countries so I can map them
+```
+
+```{r merged mapping}
+min(flavor_world_merged$`Flavor Mean`, na.rm = TRUE)
+max(flavor_world_merged$`Flavor Mean`, na.rm = TRUE)
+
+coffee_palette <- c("#FFEBCD", "#D2B48C", "#8B4513")
+flavor_breaks_merged <- c(6.9, 7.2, 7.5, 7.8, 8.1, 8.4)
+
+flavor_tm_merged <- tm_shape(flavor_world_merged) +
+  tm_polygons("Flavor Mean", title = "Flavor (Merged)", palette = coffee_palette, 
+              breaks = flavor_breaks_merged, style = "quantile", id = "Flavor Mean") +
+  tm_text("iso_a3", size = "AREA", just = "center") +
+  tm_layout() +
+  tm_view(text.size.variable = TRUE)
+
+
+tmap_mode("view")
+tmap_leaflet(flavor_tm_merged)
+```
+
+
+
 
 
 

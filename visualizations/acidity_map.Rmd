@@ -4,38 +4,96 @@ output: pdf_document
 date: "2024-19-04"
 ---
 
-```{r}
+```{r message = F}
 library(tmap)
 library(sf)
 data("World")
 ```
 
-```{r}
+```{r arabica tables}
 countries <- World %>%
-  select(name) %>%
+  select(name, iso_a3) %>%
   rename("Country of Origin" = name) #This gives me countries and their locations on the world map
 
-acidity_mean <- acidity %>%
+acidity_mean_arabica <- acidity_arabica %>%
   filter(!is.na(`Country of Origin`)) %>% #One value didnt have a country paired so I removed it
   group_by(`Country of Origin`) %>%
   summarize(`Acidity Mean` = mean(Acidity)) #This gives me mean values for each country's acidity reviews
 
-acidity_world <- merge(countries, acidity_mean, by.x = "Country of Origin", by.y = "Country of Origin", all.x = TRUE) #This merges the mean values with countries so I can map them
+acidity_world_arabica <- merge(countries, acidity_mean_arabica, by.x = "Country of Origin", by.y = "Country of Origin", all.x = TRUE) #This merges the mean values with countries so I can map them
 ```
 
-```{r}
-min(acidity_world$`Acidity Mean`, na.rm = TRUE)
-max(acidity_world$`Acidity Mean`, na.rm = TRUE)
+```{r arabica mapping}
+min(acidity_world_arabica$`Acidity Mean`, na.rm = TRUE)
+max(acidity_world_arabica$`Acidity Mean`, na.rm = TRUE)
 
 coffee_palette <- c("#FFEBCD", "#D2B48C", "#8B4513")
-acidity_breaks <- c(6.6, 7.0, 7.4, 7.8, 8.2, 8.4)
+acidity_breaks_arabica <- c(6.6, 7.0, 7.4, 7.8, 8.2, 8.4)
 
-acidity_tm <- tm_shape(acidity_world) +
-  tm_polygons("Acidity Mean", title = "Acidity", palette = coffee_palette, 
-              breaks = acidity_breaks, style = "quantile") +
-  tm_layout()
+acidity_tm_arabica <- tm_shape(acidity_world_arabica) +
+  tm_polygons("Acidity Mean", title = "Acidity (Arabica)", palette = coffee_palette, 
+              breaks = acidity_breaks_arabica, style = "quantile", id = "Acidity Mean") +
+  tm_text("iso_a3", size = "AREA", just = "center") +
+  tm_layout() +
+  tm_view(text.size.variable = TRUE)
 
 
 tmap_mode("view")
-tmap_leaflet(acidity_tm)
+tmap_leaflet(acidity_tm_arabica)
+```
+
+```{r robusta tables}
+acidity_mean_robusta <- acidity_robusta %>%
+  filter(!is.na(`Country of Origin`)) %>% #One value didnt have a country paired so I removed it
+  group_by(`Country of Origin`) %>%
+  summarize(`Acidity Mean` = mean(Acidity)) #This gives me mean values for each country's acidity reviews
+
+acidity_world_robusta <- merge(countries, acidity_mean_robusta, by.x = "Country of Origin", by.y = "Country of Origin", all.x = TRUE) #This merges the mean values with countries so I can map them
+```
+
+```{r robusta mapping}
+min(acidity_world_robusta$`Acidity Mean`, na.rm = TRUE)
+max(acidity_world_robusta$`Acidity Mean`, na.rm = TRUE)
+
+coffee_palette <- c("#FFEBCD", "#D2B48C", "#8B4513")
+acidity_breaks_robusta <- c(6.8, 7.0, 7.2, 7.4, 8.6, 7.7)
+
+acidity_tm_robusta <- tm_shape(acidity_world_robusta) +
+  tm_polygons("Acidity Mean", title = "Acidity (Robusta)", palette = coffee_palette, 
+              breaks = acidity_breaks_robusta, style = "quantile", id = "Acidity Mean") +
+  tm_text("iso_a3", size = "AREA", just = "center") +
+  tm_layout() +
+  tm_view(text.size.variable = TRUE)
+
+
+tmap_mode("view")
+tmap_leaflet(acidity_tm_robusta)
+```
+
+```{r merged tables}
+acidity_mean_merged <- acidity_merged %>%
+  filter(!is.na(`Country of Origin`)) %>% 
+  group_by(`Country of Origin`) %>%
+  summarize(`Acidity Mean` = mean(Acidity)) #This gives me mean values for each country's acidity reviews
+
+acidity_world_merged <- merge(countries, acidity_mean_merged, by.x = "Country of Origin", by.y = "Country of Origin", all.x = TRUE) #This merges the mean values with countries so I can map them
+```
+
+```{r merged mapping}
+min(acidity_world_merged$`Acidity Mean`, na.rm = TRUE)
+max(acidity_world_merged$`Acidity Mean`, na.rm = TRUE)
+
+coffee_palette <- c("#FFEBCD", "#D2B48C", "#8B4513")
+acidity_breaks_merged <- c(7.1, 7.3, 7.5, 7.7, 8.1, 8.4)
+
+acidity_tm_merged <- tm_shape(acidity_world_merged) +
+  tm_polygons("Acidity Mean", title = "Acidity (Merged)", palette = coffee_palette, 
+              breaks = acidity_breaks_merged, style = "quantile", id = "Acidity Mean") +
+  tm_text("iso_a3", size = "AREA", just = "center") +
+  tm_layout() +
+  tm_view(text.size.variable = TRUE)
+
+
+tmap_mode("view")
+tmap_leaflet(acidity_tm_merged)
 ```

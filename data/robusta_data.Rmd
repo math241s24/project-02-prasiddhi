@@ -1,0 +1,67 @@
+---
+title: "Exploring Robusta Data"
+output: pdf_document
+date: "2024-04-04"
+---
+
+```{r load csv, message = FALSE}
+library(readr)
+library(tidyverse)
+robusta_og <- read_csv("robusta_data_cleaned.csv")
+
+
+dim(robusta_og)
+
+robusta <- robusta_og %>% 
+   rename("Aroma" = "Fragrance...Aroma",
+          "Acidity" = "Salt...Acid",
+          "Sweetness" = "Bitter...Sweet")
+   
+
+```
+
+```{r characteristic subsets}
+flavor_robusta <- robusta %>%
+  select(Country.of.Origin, Flavor) %>%
+  rename("Country of Origin" = Country.of.Origin)
+
+acidity_robusta <- robusta %>%
+  select(Country.of.Origin, Acidity) %>%
+  rename("Country of Origin" = Country.of.Origin)
+
+sweetness_robusta <- robusta %>%
+  select(Country.of.Origin, Sweetness) %>%
+  rename("Country of Origin" = Country.of.Origin)
+
+aroma_robusta <- robusta %>%
+  select(Country.of.Origin, Aroma) %>%
+  rename("Country of Origin" = Country.of.Origin)
+
+total_robusta <- robusta %>%
+  select(Country.of.Origin, Total.Cup.Points) %>%
+  rename("Country of Origin" = Country.of.Origin,
+         "Total Cup Points" = Total.Cup.Points)
+```
+
+```{r top ten tables}
+flavor_top10 <- flavor_robusta %>% 
+  slice_max(n = 10, order_by = Flavor)
+flavor_top10
+
+acidity_top10 <- acidity_robusta %>% 
+  slice_max(n = 10, order_by = Acidity)
+acidity_top10
+
+sweetness_top10 <- sweetness_robusta %>% 
+  slice_max(n = 10, order_by = Sweetness)
+sweetness_top10
+
+aroma_top10 <- aroma_robusta %>% 
+  slice_max(n = 10, order_by = Aroma)
+aroma_top10
+
+total_top10 <- total_robusta %>% 
+  slice_max(n = 10, order_by = `Total Cup Points`)
+total_top10
+
+```
