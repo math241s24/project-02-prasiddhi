@@ -50,6 +50,8 @@ I'm curious to see if coffees grown in particular countries/regions produce diff
 
 ```{r importing data, echo = FALSE, include = FALSE}
 library(tidyverse)
+library(broom)
+library(parsnip)
 arabica <- read_csv("data/arabica_data_cleaned.csv")
 robusta <- read_csv("data/robusta_data_cleaned.csv")
 merged <- read_csv("data/merged_data_cleaned.csv")
@@ -188,3 +190,18 @@ merged %>%
   slice_max(n = 10, order_by = Total.Cup.Points)
 ```
 :::
+
+## Statistical Exploration
+
+```{r}
+library(yardstick)
+pred_all <- arabica %>%
+  select(Flavor) %>%
+  bind_cols(
+    predict(mod_tree_all, new_data = train, type = "class")
+  ) %>%
+  rename(income_dtree = .pred_class)
+
+accuracy(pred_all, income, income_dtree)
+```
+

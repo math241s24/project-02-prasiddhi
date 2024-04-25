@@ -7,7 +7,38 @@ date: "2024-19-04"
 ```{r message = F}
 library(tmap)
 library(sf)
+library(tidyverse)
 data("World")
+
+arabica <- read_csv("../data/arabica_data_cleaned.csv")
+robusta <- read_csv("../data/robusta_data_cleaned.csv")
+merged <- read_csv("../data/merged_data_cleaned.csv")
+
+flavor_arabica <- arabica %>%
+  select(Country.of.Origin, Flavor) %>%
+  rename("Country of Origin" = Country.of.Origin) %>%
+  mutate(`Country of Origin` = recode(`Country of Origin`,
+         "Cote d?Ivoire" = "Cote d'Ivoire",
+         "Tanzania, United Republic Of" = "Tanzania",
+         "Laos" = "Lao PDR",
+         "United States (Puerto Rico)" = "Puerto Rico",
+         "United States (Hawaii)" = "United States")) %>% 
+  filter(`Country of Origin` != "Mauritius") #Had to remove because World data for some reason doesnt have this country?
+
+flavor_robusta <- robusta %>%
+  select(Country.of.Origin, Flavor) %>%
+  rename("Country of Origin" = Country.of.Origin)
+
+flavor_merged <- merged %>%
+  select(Country.of.Origin, Flavor) %>%
+  rename("Country of Origin" = Country.of.Origin) %>%
+  mutate(`Country of Origin` = recode(`Country of Origin`,
+         "Cote d?Ivoire" = "Cote d'Ivoire",
+         "Tanzania, United Republic Of" = "Tanzania",
+         "Laos" = "Lao PDR",
+         "United States (Puerto Rico)" = "Puerto Rico",
+         "United States (Hawaii)" = "United States")) %>% 
+  filter(`Country of Origin` != "Mauritius") 
 ```
 
 ```{r arabica tables}

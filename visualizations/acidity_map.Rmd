@@ -7,7 +7,39 @@ date: "2024-19-04"
 ```{r message = F}
 library(tmap)
 library(sf)
+library(tidyverse)
 data("World")
+
+arabica <- read_csv("../data/arabica_data_cleaned.csv")
+robusta <- read_csv("../data/robusta_data_cleaned.csv")
+merged <- read_csv("../data/merged_data_cleaned.csv")
+
+acidity_arabica <- arabica %>%
+  select(Country.of.Origin, Acidity) %>%
+  rename("Country of Origin" = Country.of.Origin) %>%
+  mutate(`Country of Origin` = recode(`Country of Origin`,
+         "Cote d?Ivoire" = "Cote d'Ivoire",
+         "Tanzania, United Republic Of" = "Tanzania",
+         "Laos" = "Lao PDR",
+         "United States (Puerto Rico)" = "Puerto Rico",
+         "United States (Hawaii)" = "United States")) %>% 
+  filter(`Country of Origin` != "Mauritius") #Had to remove because World data for some reason doesnt have this country?
+
+acidity_robusta <- robusta %>%
+  select(Country.of.Origin, Salt...Acid) %>%
+  rename("Country of Origin" = Country.of.Origin,
+         "Acidity" = Salt...Acid)
+
+acidity_merged <- merged %>%
+  select(Country.of.Origin, Acidity) %>%
+  rename("Country of Origin" = Country.of.Origin) %>%
+  mutate(`Country of Origin` = recode(`Country of Origin`,
+         "Cote d?Ivoire" = "Cote d'Ivoire",
+         "Tanzania, United Republic Of" = "Tanzania",
+         "Laos" = "Lao PDR",
+         "United States (Puerto Rico)" = "Puerto Rico",
+         "United States (Hawaii)" = "United States")) %>% 
+  filter(`Country of Origin` != "Mauritius") 
 ```
 
 ```{r arabica tables}
@@ -16,11 +48,13 @@ countries <- World %>%
   rename("Country of Origin" = name) #This gives me countries and their locations on the world map
 
 acidity_mean_arabica <- acidity_arabica %>%
-  filter(!is.na(`Country of Origin`)) %>% #One value didnt have a country paired so I removed it
+  filter(!is.na(`Country of Origin`)) %>%
   group_by(`Country of Origin`) %>%
-  summarize(`Acidity Mean` = mean(Acidity)) #This gives me mean values for each country's acidity reviews
+  summarize(`Acidity Mean` = mean(Acidity)) 
 
-acidity_world_arabica <- merge(countries, acidity_mean_arabica, by.x = "Country of Origin", by.y = "Country of Origin", all.x = TRUE) #This merges the mean values with countries so I can map them
+acidity_world_arabica <- merge(countries, acidity_mean_arabica, 
+                               by.x = "Country of Origin", by.y = "Country of Origin", 
+                               all.x = TRUE, all.y = TRUE) #This merges the mean values with countries so I can map them
 ```
 
 ```{r arabica mapping}
@@ -33,7 +67,7 @@ acidity_breaks_arabica <- c(6.6, 7.0, 7.4, 7.8, 8.2, 8.4)
 acidity_tm_arabica <- tm_shape(acidity_world_arabica) +
   tm_polygons("Acidity Mean", title = "Acidity (Arabica)", palette = coffee_palette, 
               breaks = acidity_breaks_arabica, style = "quantile", id = "Acidity Mean") +
-  tm_text("iso_a3", size = "AREA", just = "center") +
+  tm_text("iso_a3", size = 0.4, just = "center") +
   tm_layout() +
   tm_view(text.size.variable = TRUE)
 
@@ -48,7 +82,7 @@ acidity_mean_robusta <- acidity_robusta %>%
   group_by(`Country of Origin`) %>%
   summarize(`Acidity Mean` = mean(Acidity)) #This gives me mean values for each country's acidity reviews
 
-acidity_world_robusta <- merge(countries, acidity_mean_robusta, by.x = "Country of Origin", by.y = "Country of Origin", all.x = TRUE) #This merges the mean values with countries so I can map them
+acidity_world_robusta <- merge(countries, acidity_mean_robusta, by.x = "Country of Origin", by.y = "Country of Origin", all.x = TRUE, all.y = TRUE) #This merges the mean values with countries so I can map them
 ```
 
 ```{r robusta mapping}
