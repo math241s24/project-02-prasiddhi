@@ -1,0 +1,71 @@
+---
+title: "Predictive Modeling: Supervised Learning"
+output: pdf_document
+date: "2024-04-24"
+---
+
+```{r message = F}
+library(tmap)
+library(tidyverse)
+library(sf)
+data("World")
+```
+
+```{r message = F}
+countries <- World %>%
+  st_drop_geometry() %>%
+  select(name, iso_a3, continent) %>%
+  rename("Country of Origin" = name)
+
+merged <- read_csv("data/merged_data_cleaned.csv") %>%
+  rename("Country of Origin" = Country.of.Origin,
+         "Total Cup Points" = Total.Cup.Points) %>%
+  mutate(`Country of Origin` = recode(`Country of Origin`,
+                                      "Cote d?Ivoire" = "Cote d'Ivoire",
+                                      "Tanzania, United Republic Of" = "Tanzania",
+                                      "Laos" = "Lao PDR",
+                                      "United States (Puerto Rico)" = "Puerto Rico",
+                                      "United States (Hawaii)" = "United States")) %>% 
+  filter(`Country of Origin` != "Mauritius") %>% 
+  filter(!is.na(`Country of Origin`)) %>%
+  group_by(`Country of Origin`)
+
+both_world <- merge(countries, merged, 
+                    by.x = "Country of Origin", by.y = "Country of Origin", 
+                    all.x = TRUE, all.y = TRUE)
+
+coffee <- both_world[complete.cases(both_world$Species), ] %>%
+  group_by(continent)
+```
+
+```{r}
+library(tidymodels)
+
+coffee_parts <- coffee %>%
+  initial_split(prop = 0.8)
+
+train <- coffee_parts %>%
+  training()
+
+test <- coffee_parts %>%
+  testing()
+```
+
+```{r}
+train %>%
+  count(continent) %>%
+  mutate(pct = n / sum(n))
+
+mod_null <- multinom_reg(mode = "classification") %>%
+  set_engine("glmnet") %>%
+  fit(continent ~ 1, data = train)
+
+mod_null
+```
+
+
+
+
+
+
+

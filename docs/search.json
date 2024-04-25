@@ -32,14 +32,14 @@
     "href": "presentation.html#research-question",
     "title": "Comparing Coffee Characteristics by Country of Origin",
     "section": "Research Question",
-    "text": "Research Question\nAre certain countries associated with certain coffee characteristics?\nI want to compare coffees from different countries to see which coffee characteristics are associated with places of origin.\nI’m curious to see if coffees grown in particular countries/regions produce different flavor profiles. I made a Shinyapp that allows users to choose variables to be mapped onto a chloropleth world map. I chose the following five flavor traits:\n\nFlavor\nAcidity\nSweetness\nAroma\nTotal Cup Points (total quality score from 1-100)"
+    "text": "Research Question\nDo coffees grown in certain countries/regions produce different flavor profiles?\nI made an interactive Shinyapp map that allows users to choose from these five flavor traits:\n\nFlavor\nAcidity\nSweetness\nAroma\nTotal Cup Points (total quality score from 1-100)"
   },
   {
     "objectID": "presentation.html#the-data",
     "href": "presentation.html#the-data",
     "title": "Comparing Coffee Characteristics by Country of Origin",
     "section": "The Data",
-    "text": "The Data\nscrapped and cleaned by Github user @jldbc\n\nThree csv files containing consumer reviews from the Coffee Quality Institute\n\nArabica, Robusta, both (merged)\n\nInformational variables on\n\nquality measures\nbean data (such as processing method),\nfarm data (such as altitude), etc.\n\nReviews were mix of qualitative and quantitative, converted to numeric scale."
+    "text": "The Data\nscrapped and cleaned by Github user @jldbc\n\nThree .csv files with consumer reviews from the Coffee Quality Institute\n\nArabica, Robusta, both (merged)\n\nInformation on\n\nquality measures\nbean data (such as processing method),\nfarm/origin data (such as altitude)\n\nReviews were mix of qualitative and quantitative, converted to numeric scale"
   },
   {
     "objectID": "presentation.html#the-data-1",
@@ -130,7 +130,7 @@
     "href": "presentation.html#limitations",
     "title": "Comparing Coffee Characteristics by Country of Origin",
     "section": "Limitations",
-    "text": "Limitations\n\nMuch more data on arabica than robusta species\nSome countries have many more observations than others\n\nEthiopia vs. India\n\nCorrelation vs Causation\n\nTwo coffees grown at different altitudes, different countries\nIs it really country of origin that creates the flavor profile?"
+    "text": "Limitations\n\nMuch more data on arabica than robusta species\nSome countries have many more observations than others\n\nex. Ethiopia vs. Panama\nUsing mean -&gt; sensitive to outliers\n\nCorrelation vs Causation\n\nTwo coffees grown at different altitudes, different countries\nIs it really country of origin that creates the flavor profile?"
   },
   {
     "objectID": "presentation.html#predictive-modelling-supervised-learning",
@@ -144,7 +144,7 @@
     "href": "presentation.html#predictive-modelling",
     "title": "Comparing Coffee Characteristics by Country of Origin",
     "section": "Predictive Modelling",
-    "text": "Predictive Modelling\nCan we predict country of origin based on flavor profile using a supervised learning algorithm?"
+    "text": "Predictive Modelling\nCan we predict region of origin based on flavor profile?\n\nSupervised learning algorithm\nGrouping each country by region (using “World” dataset)\nAddition to Shiny dashboard\n\nInsert values for flavor profile, guess region of origin?"
   },
   {
     "objectID": "presentation.html#shinyapp",

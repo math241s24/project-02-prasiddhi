@@ -1,23 +1,20 @@
 ---
 title: "Comparing Coffee Characteristics by Country of Origin"
-subtitle: "Using tmap and ShinyApp"
+subtitle: "*Using tmap and ShinyApp*"
 author: "Prasiddhi Thapaliya"
 title-slide-attributes:
   data-slide-number: none
 format: revealjs
 editor: visual
-server: shiny
 execute:
   echo: false
 ---
 
-## Research Question {.smaller}
+## Research Question 
 
-#### Are certain countries associated with certain coffee characteristics?
+#### Do coffees grown in certain countries/regions produce different flavor profiles?
 
-I want to compare coffees from different countries to see which coffee characteristics are associated with places of origin.
-
-I'm curious to see if coffees grown in particular countries/regions produce different flavor profiles. I made a Shinyapp that allows users to choose variables to be mapped onto a chloropleth world map. I chose the following five flavor traits:
+I made an interactive Shinyapp map that allows users to choose from these five flavor traits:
 
 -   Flavor
 
@@ -33,19 +30,19 @@ I'm curious to see if coffees grown in particular countries/regions produce diff
 
 ##### scrapped and cleaned by Github user @jldbc
 
--   Three csv files containing consumer reviews from the Coffee Quality Institute
+-   Three .csv files with consumer reviews from the Coffee Quality Institute
 
     -   Arabica, Robusta, both (merged)
 
--   Informational variables on
+-   Information on
 
     -   quality measures
 
     -   bean data (such as processing method),
 
-    -   farm data (such as altitude), etc.
+    -   farm/origin data (such as altitude)
 
--   Reviews were mix of qualitative and quantitative, converted to numeric scale.
+-   Reviews were mix of qualitative and quantitative, converted to numeric scale
 
 ## The Data
 
@@ -200,21 +197,27 @@ merged %>%
 
 -   Some countries have many more observations than others
 
-    -   Ethiopia vs. India
+    -   ex. Ethiopia vs. Panama
+    -   Using mean -\> sensitive to outliers
 
 -   Correlation vs Causation
 
     -   Two coffees grown at different altitudes, different countries
 
     -   Is it *really* country of origin that creates the flavor profile?
-    
-## ShinyApp
 
-```{html}
-<iframe src="https://your-shiny-app-url-here" style="border:none;width:100%;height:500px;"></iframe>
-```    
+# ShinyApp!
+
 ## Predictive Modelling
 
-#### Can we predict country of origin based on flavor profile using a supervised learning algorithm?
+#### Can we predict region of origin based on flavor profile?
 
+-   Supervised learning algorithm
 
+-   Grouping each country by region (using "World" dataset)
+
+-   Addition to Shiny dashboard
+
+    -   Insert values for flavor profile, guess region of origin?
+
+# To be Continued...
