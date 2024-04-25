@@ -117,5 +117,40 @@
     "title": "Comparing Coffee Characteristics by Country of Origin",
     "section": "Statistical Exploration",
     "text": "Statistical Exploration"
+  },
+  {
+    "objectID": "presentation.html#top-ten-both",
+    "href": "presentation.html#top-ten-both",
+    "title": "Comparing Coffee Characteristics by Country of Origin",
+    "section": "Top Ten (Both)",
+    "text": "Top Ten (Both)\n\nAcidityAromaFlavorSweetnessTotal\n\n\n\n\n# A tibble: 15 × 2\n   Acidity Country.of.Origin\n     &lt;dbl&gt; &lt;chr&gt;            \n 1    8.75 Ethiopia         \n 2    8.58 Ethiopia         \n 3    8.5  Ethiopia         \n 4    8.5  Brazil           \n 5    8.5  Peru             \n 6    8.5  Ethiopia         \n 7    8.5  Ethiopia         \n 8    8.5  United States    \n 9    8.5  Kenya            \n10    8.42 Guatemala        \n11    8.42 Ethiopia         \n12    8.42 Ethiopia         \n13    8.42 Ethiopia         \n14    8.42 United States    \n15    8.42 Thailand         \n\n\n\n\n\n\n# A tibble: 16 × 2\n   Aroma Country.of.Origin           \n   &lt;dbl&gt; &lt;chr&gt;                       \n 1  8.75 Ethiopia                    \n 2  8.67 Ethiopia                    \n 3  8.67 Ethiopia                    \n 4  8.58 Brazil                      \n 5  8.5  Brazil                      \n 6  8.5  Brazil                      \n 7  8.5  Brazil                      \n 8  8.42 Guatemala                   \n 9  8.42 Peru                        \n10  8.42 China                       \n11  8.42 Ethiopia                    \n12  8.42 Uganda                      \n13  8.42 Tanzania, United Republic Of\n14  8.42 Brazil                      \n15  8.42 Ethiopia                    \n16  8.42 El Salvador                 \n\n\n\n\n\n\n# A tibble: 12 × 2\n   Flavor Country.of.Origin\n    &lt;dbl&gt; &lt;chr&gt;            \n 1   8.83 Ethiopia         \n 2   8.67 Ethiopia         \n 3   8.67 Ethiopia         \n 4   8.67 Ethiopia         \n 5   8.67 United States    \n 6   8.58 Ethiopia         \n 7   8.58 Ethiopia         \n 8   8.5  Guatemala        \n 9   8.5  Ethiopia         \n10   8.5  Peru             \n11   8.5  United States    \n12   8.5  Brazil           \n\n\n\n\n\n\n# A tibble: 1,218 × 2\n   Sweetness Country.of.Origin\n       &lt;dbl&gt; &lt;chr&gt;            \n 1        10 Ethiopia         \n 2        10 Ethiopia         \n 3        10 Guatemala        \n 4        10 Ethiopia         \n 5        10 Ethiopia         \n 6        10 Brazil           \n 7        10 Peru             \n 8        10 Ethiopia         \n 9        10 Ethiopia         \n10        10 United States    \n# ℹ 1,208 more rows\n\n\n\n\n\n\n# A tibble: 10 × 2\n   Total.Cup.Points Country.of.Origin\n              &lt;dbl&gt; &lt;chr&gt;            \n 1             90.6 Ethiopia         \n 2             89.9 Ethiopia         \n 3             89.8 Guatemala        \n 4             89   Ethiopia         \n 5             88.8 Ethiopia         \n 6             88.8 Brazil           \n 7             88.8 Peru             \n 8             88.7 Ethiopia         \n 9             88.4 Ethiopia         \n10             88.2 Ethiopia"
+  },
+  {
+    "objectID": "presentation.html#limitations",
+    "href": "presentation.html#limitations",
+    "title": "Comparing Coffee Characteristics by Country of Origin",
+    "section": "Limitations",
+    "text": "Limitations\n\nMuch more data on arabica than robusta species\nSome countries have many more observations than others\n\nEthiopia vs. India\n\nCorrelation vs Causation\n\nTwo coffees grown at different altitudes, different countries\nIs it really country of origin that creates the flavor profile?"
+  },
+  {
+    "objectID": "presentation.html#predictive-modelling-supervised-learning",
+    "href": "presentation.html#predictive-modelling-supervised-learning",
+    "title": "Comparing Coffee Characteristics by Country of Origin",
+    "section": "Predictive Modelling: Supervised Learning",
+    "text": "Predictive Modelling: Supervised Learning\nCan we predict country of origin based on flavor profile?"
+  },
+  {
+    "objectID": "presentation.html#predictive-modelling",
+    "href": "presentation.html#predictive-modelling",
+    "title": "Comparing Coffee Characteristics by Country of Origin",
+    "section": "Predictive Modelling",
+    "text": "Predictive Modelling\nCan we predict country of origin based on flavor profile using a supervised learning algorithm?"
+  },
+  {
+    "objectID": "presentation.html#shinyapp",
+    "href": "presentation.html#shinyapp",
+    "title": "Comparing Coffee Characteristics by Country of Origin",
+    "section": "ShinyApp",
+    "text": "ShinyApp"
   }
 ]

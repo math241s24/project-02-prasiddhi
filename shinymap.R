@@ -1,20 +1,18 @@
-#
 # This is a Shiny web application. You can run the application by clicking
 # the 'Run App' button above.
 #
 # Find out more about building applications with Shiny here:
 #
-#    http://shiny.rstudio.com/
+# http://shiny.rstudio.com/
 #
-# Load required libraries
 library(shiny)
 library(tmap)
 library(tmaptools)
-library(dplyr)
-library(readr)
+library(tidyverse)
+library(rsconnect)
 data("World")
 
-# Load each dataset
+#datasets
 countries <- World %>%
   select(name, iso_a3) %>%
   rename("Country of Origin" = name)
@@ -85,7 +83,7 @@ both_world <- merge(countries, arabica,
                        all.x = TRUE, all.y = TRUE)
 
 
-
+#Shinyapp
 if (require("shiny")) {
   
   arabica_vars <- setdiff(names(arabica_world), c("Country of Origin", "geometry", "iso_a3"))

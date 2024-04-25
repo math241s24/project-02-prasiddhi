@@ -1,0 +1,13 @@
+name: math-241-project2
+title: math-241-project2
+username: prasiddth
+account: prasiddth
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11859115
+bundleId: 8539120
+url: https://prasiddth.shinyapps.io/math-241-project2/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: _quarto.yml|.gitattributes|about.qmd|index.qmd|presentation.qmd|proposal.qmd|README.md|styles.css|_freeze|_site|docs
