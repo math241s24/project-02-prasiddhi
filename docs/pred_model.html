@@ -1,0 +1,4592 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2024-04-24">
+
+<title>Project 2 - Predictive Modeling: Supervised Learning</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Project 2</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Project</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./proposal.html"> 
+<span class="menu-text">Proposal</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./presentation.html"> 
+<span class="menu-text">Presentation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/math241s24/project-02"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Predictive Modeling: Supervised Learning</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 24, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tmap)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"World"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>countries <span class="ot">&lt;-</span> World <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_drop_geometry</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, continent) <span class="sc">%&gt;%</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(continent <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"North America"</span>, <span class="st">"South America"</span>, <span class="st">"Asia"</span>, <span class="st">"Africa"</span>)) <span class="sc">%&gt;%</span>  </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"Country"</span> <span class="ot">=</span> name) <span class="sc">%&gt;%</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">continent =</span> <span class="fu">as.character</span>(continent)) <span class="sc">%&gt;%</span> <span class="co"># So I can assign Mauritius a continent</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Country =</span> <span class="fu">as.character</span>(Country))</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>merged <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/merged_data_cleaned.csv"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"Country"</span> <span class="ot">=</span> Country.of.Origin,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>         <span class="st">"Total"</span> <span class="ot">=</span> Total.Cup.Points) <span class="sc">%&gt;%</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Country =</span> <span class="fu">recode</span>(Country,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"Cote d?Ivoire"</span> <span class="ot">=</span> <span class="st">"Cote d'Ivoire"</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"Tanzania, United Republic Of"</span> <span class="ot">=</span> <span class="st">"Tanzania"</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"Laos"</span> <span class="ot">=</span> <span class="st">"Lao PDR"</span>,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"United States (Puerto Rico)"</span> <span class="ot">=</span> <span class="st">"Puerto Rico"</span>,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"United States (Hawaii)"</span> <span class="ot">=</span> <span class="st">"United States"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Country)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Country) <span class="sc">%&gt;%</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Country =</span> <span class="fu">as.character</span>(Country))</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>both_world <span class="ot">&lt;-</span> <span class="fu">merge</span>(countries, merged, </span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>                    <span class="at">by.x =</span> <span class="st">"Country"</span>, <span class="at">by.y =</span> <span class="st">"Country"</span>, </span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>                    <span class="at">all.x =</span> <span class="cn">TRUE</span>, <span class="at">all.y =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>coffee <span class="ot">&lt;-</span> both_world <span class="sc">%&gt;%</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">complete.cases</span>(Species, Acidity, Aroma, Flavor, Sweetness, Total)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">continent =</span> <span class="fu">ifelse</span>(Country <span class="sc">==</span> <span class="st">"Mauritius"</span>, <span class="st">"Africa"</span>, continent)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(continent <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"North America"</span>, <span class="st">"South America"</span>, <span class="st">"Asia"</span>, <span class="st">"Africa"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Species =</span> <span class="fu">as.factor</span>(Species))</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>coffee<span class="sc">$</span>continent <span class="ot">&lt;-</span> <span class="fu">factor</span>(coffee<span class="sc">$</span>continent) <span class="co"># Changing it back to factor</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(coffee<span class="sc">$</span>continent)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "factor"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#There was one observation for Oceania so i filtered to only include the other four continents present in the data. I had to assign Mauritius a continent since it's not in the world data set, requiring me to change the continent variable from factor, to character, back to factor.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>coffee_parts <span class="ot">&lt;-</span> coffee <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">initial_split</span>(<span class="at">prop =</span> <span class="fl">0.8</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> coffee_parts <span class="sc">%&gt;%</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">training</span>()</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> coffee_parts <span class="sc">%&gt;%</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">testing</span>()</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>new_test <span class="ot">&lt;-</span> test <span class="sc">%&gt;%</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>continent)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>new_train <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>continent)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>train <span class="sc">%&gt;%</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(continent) <span class="sc">%&gt;%</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pct =</span> n <span class="sc">/</span> <span class="fu">nrow</span>(train))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      continent   n       pct
+1        Africa 130 0.1216090
+2          Asia 142 0.1328344
+3 North America 533 0.4985968
+4 South America 264 0.2469598</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>form_all <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"continent ~ Sweetness + Acidity + Total + Flavor + Aroma + Species"</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>mod_tree_all <span class="ot">&lt;-</span> <span class="fu">decision_tree</span>(<span class="at">mode =</span> <span class="st">"classification"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"rpart"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fit</span>(form_all, <span class="at">data =</span> train)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>mod_tree_all</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parsnip model object
+
+n= 1069 
+
+node), split, n, loss, yval, (yprob)
+      * denotes terminal node
+
+ 1) root 1069 536 North America (0.12160898 0.13283442 0.49859682 0.24695978)  
+   2) Total&gt;=80.29 890 495 North America (0.14382022 0.13370787 0.44382022 0.27865169)  
+     4) Acidity&gt;=7.875 126  69 North America (0.34126984 0.08730159 0.45238095 0.11904762)  
+       8) Total&gt;=84.335 89  49 Africa (0.44943820 0.06741573 0.34831461 0.13483146) *
+       9) Total&lt; 84.335 37  11 North America (0.08108108 0.13513514 0.70270270 0.08108108) *
+     5) Acidity&lt; 7.875 764 426 North America (0.11125654 0.14136126 0.44240838 0.30497382)  
+      10) Total&lt; 82.875 431 213 North America (0.10904872 0.15777262 0.50580046 0.22737819)  
+        20) Acidity&gt;=7.125 409 194 North America (0.11246944 0.14669927 0.52567237 0.21515892) *
+        21) Acidity&lt; 7.125 22  12 South America (0.04545455 0.36363636 0.13636364 0.45454545) *
+      11) Total&gt;=82.875 333 198 South America (0.11411411 0.12012012 0.36036036 0.40540541)  
+        22) Acidity&gt;=7.605 202 120 North America (0.13861386 0.09900990 0.40594059 0.35643564)  
+          44) Total&gt;=83.4 153  95 South America (0.16339869 0.10457516 0.35294118 0.37908497)  
+            88) Flavor&gt;=7.71 101  62 North America (0.19801980 0.12871287 0.38613861 0.28712871) *
+            89) Flavor&lt; 7.71 52  23 South America (0.09615385 0.05769231 0.28846154 0.55769231) *
+          45) Total&lt; 83.4 49  21 North America (0.06122449 0.08163265 0.57142857 0.28571429) *
+        23) Acidity&lt; 7.605 131  68 South America (0.07633588 0.15267176 0.29007634 0.48091603) *
+   3) Total&lt; 80.29 179  41 North America (0.01117318 0.12849162 0.77094972 0.08938547) *</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">printcp</span>(mod_tree_all<span class="sc">$</span>fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Classification tree:
+rpart::rpart(formula = continent ~ Sweetness + Acidity + Total + 
+    Flavor + Aroma + Species, data = data)
+
+Variables actually used in tree construction:
+[1] Acidity Flavor  Total  
+
+Root node error: 536/1069 = 0.5014
+
+n= 1069 
+
+        CP nsplit rel error  xerror     xstd
+1 0.011194      0   1.00000 1.00000 0.030499
+2 0.010000      8   0.89739 0.99627 0.030500</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pred_all <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(continent) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(mod_tree_all, <span class="at">new_data =</span> train, <span class="at">type =</span> <span class="st">"class"</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">continent_dtree =</span> .pred_class)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>pred_all</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         continent continent_dtree
+1    North America   North America
+2    North America   North America
+3             Asia   North America
+4    South America   South America
+5    North America   North America
+6           Africa   North America
+7             Asia   North America
+8    South America   South America
+9    North America   North America
+10   North America   North America
+11   South America   South America
+12          Africa   North America
+13   South America   North America
+14            Asia   North America
+15            Asia   North America
+16   North America   North America
+17   South America   North America
+18          Africa   North America
+19   North America   North America
+20   North America   North America
+21   North America   North America
+22   North America   North America
+23   North America   North America
+24   North America   North America
+25            Asia   North America
+26   South America   North America
+27   North America   North America
+28   South America   South America
+29   North America   South America
+30          Africa   North America
+31   North America   North America
+32   South America   South America
+33   South America   North America
+34   North America   North America
+35   North America   North America
+36   South America   South America
+37            Asia   South America
+38   North America   North America
+39            Asia   North America
+40   North America   North America
+41          Africa          Africa
+42   South America   North America
+43   North America   North America
+44   North America   South America
+45   North America   North America
+46   North America   North America
+47   South America   North America
+48   North America   North America
+49   North America   North America
+50   South America          Africa
+51   North America   South America
+52          Africa          Africa
+53   North America   North America
+54   North America   North America
+55   South America   North America
+56   North America   South America
+57   North America   South America
+58   North America   North America
+59   North America   North America
+60            Asia   North America
+61   North America   North America
+62   North America   North America
+63   North America   North America
+64   North America   North America
+65   North America   North America
+66            Asia   South America
+67   South America   North America
+68   North America   North America
+69   North America   North America
+70   North America   North America
+71   North America   North America
+72            Asia   North America
+73   North America   North America
+74            Asia   North America
+75            Asia          Africa
+76   North America   North America
+77   North America   North America
+78            Asia   North America
+79   South America   North America
+80          Africa   North America
+81          Africa          Africa
+82   South America   North America
+83   North America   North America
+84          Africa   North America
+85          Africa   North America
+86          Africa   North America
+87   North America   North America
+88          Africa   North America
+89   North America   North America
+90   North America   North America
+91   North America   North America
+92   North America   North America
+93          Africa   North America
+94   North America   South America
+95   North America   South America
+96   South America   South America
+97   North America          Africa
+98   North America   South America
+99   North America   South America
+100  North America   North America
+101  North America   North America
+102  North America   North America
+103         Africa   North America
+104  North America   North America
+105  South America   North America
+106  South America   North America
+107  North America   North America
+108           Asia   South America
+109           Asia   North America
+110  North America   North America
+111           Asia   North America
+112  North America   North America
+113  North America   North America
+114  South America   North America
+115  North America   North America
+116  North America   North America
+117         Africa   South America
+118  North America   North America
+119  South America   North America
+120  South America   North America
+121  North America   North America
+122  South America   South America
+123  South America   North America
+124  South America   North America
+125  North America   North America
+126           Asia   North America
+127           Asia   North America
+128  North America   North America
+129  South America   South America
+130  North America   South America
+131           Asia   North America
+132           Asia   North America
+133  North America   North America
+134  North America   North America
+135           Asia   North America
+136  North America   North America
+137  North America   North America
+138           Asia   North America
+139  North America   North America
+140         Africa   North America
+141           Asia   North America
+142         Africa   North America
+143  North America   North America
+144  North America   North America
+145           Asia   North America
+146           Asia   North America
+147  South America   South America
+148         Africa   South America
+149  North America   North America
+150  North America   North America
+151  South America   North America
+152  South America   North America
+153         Africa          Africa
+154  North America   North America
+155  North America   North America
+156  North America   North America
+157           Asia   North America
+158  North America   North America
+159  North America   South America
+160  North America   North America
+161  North America   North America
+162  South America   South America
+163  South America   South America
+164  South America   South America
+165  North America   North America
+166           Asia   South America
+167  South America   North America
+168  North America   North America
+169  South America   North America
+170  North America   North America
+171         Africa   North America
+172  North America   South America
+173           Asia   South America
+174  North America   North America
+175  South America   North America
+176           Asia   North America
+177  South America   North America
+178  South America   North America
+179  North America   North America
+180  North America   North America
+181  North America   North America
+182  South America   North America
+183  North America   North America
+184  North America          Africa
+185  South America   South America
+186  South America   North America
+187  North America   North America
+188  North America   South America
+189  North America          Africa
+190         Africa   North America
+191  South America   North America
+192  North America   North America
+193  North America   South America
+194  South America   South America
+195  North America   North America
+196  South America   North America
+197           Asia   North America
+198  North America   South America
+199  North America   South America
+200  North America   North America
+201  North America   North America
+202           Asia   North America
+203  North America   North America
+204         Africa          Africa
+205  North America   North America
+206  South America   North America
+207  North America   North America
+208  North America   South America
+209           Asia   North America
+210  North America   North America
+211  North America   North America
+212  North America   North America
+213           Asia   North America
+214  South America   South America
+215  North America   North America
+216  South America   North America
+217  North America   North America
+218  North America   North America
+219  South America   North America
+220  North America   North America
+221  North America   South America
+222  North America   North America
+223  North America   North America
+224         Africa   North America
+225  North America   South America
+226           Asia   North America
+227  South America   North America
+228  North America   North America
+229           Asia   North America
+230  North America   North America
+231         Africa          Africa
+232  North America   South America
+233           Asia   South America
+234  South America   South America
+235  North America   North America
+236  North America   North America
+237         Africa          Africa
+238  North America   North America
+239  North America   North America
+240  North America   North America
+241  South America   North America
+242           Asia   North America
+243  North America   North America
+244         Africa   South America
+245         Africa   North America
+246         Africa   South America
+247  South America   North America
+248  South America   South America
+249  South America   North America
+250  North America   North America
+251  South America   North America
+252  South America   South America
+253  North America   North America
+254  South America   North America
+255         Africa   North America
+256           Asia   North America
+257  North America   North America
+258           Asia   North America
+259  North America   North America
+260  North America   North America
+261  North America   North America
+262  North America   North America
+263  South America   South America
+264  South America   North America
+265  South America   North America
+266  North America   North America
+267         Africa   North America
+268  North America   North America
+269  North America   North America
+270  North America   North America
+271  North America   North America
+272         Africa   North America
+273  South America   South America
+274         Africa          Africa
+275  North America   North America
+276  North America   North America
+277  North America   North America
+278  North America   North America
+279  North America   North America
+280  South America   South America
+281  South America   North America
+282  South America   North America
+283  North America   North America
+284           Asia   South America
+285  North America   North America
+286           Asia   North America
+287  South America   North America
+288  North America   North America
+289  South America   South America
+290  North America   North America
+291  South America   South America
+292  South America   South America
+293  North America          Africa
+294           Asia   South America
+295         Africa   North America
+296  South America   North America
+297  South America   South America
+298  North America   North America
+299  North America   North America
+300  South America   North America
+301  North America   North America
+302  North America   North America
+303  South America   North America
+304  North America   North America
+305  South America   South America
+306  South America   South America
+307           Asia   North America
+308         Africa   South America
+309  North America   North America
+310  North America   North America
+311           Asia   North America
+312  South America   North America
+313  North America   South America
+314           Asia   North America
+315           Asia   North America
+316  North America   North America
+317  North America   North America
+318  North America   South America
+319  North America   South America
+320         Africa          Africa
+321  North America   North America
+322  South America   South America
+323  South America   South America
+324           Asia   North America
+325  South America   North America
+326  North America          Africa
+327  North America   North America
+328  North America   South America
+329         Africa   North America
+330  North America   North America
+331         Africa          Africa
+332  North America   North America
+333  North America   North America
+334  South America   South America
+335  South America   North America
+336  North America   North America
+337  North America   North America
+338         Africa          Africa
+339  North America   North America
+340  North America   North America
+341  North America   North America
+342  North America   North America
+343  North America   North America
+344           Asia   North America
+345         Africa   South America
+346  North America   North America
+347  South America   South America
+348  South America   North America
+349  South America   North America
+350  South America   North America
+351  North America   North America
+352  North America   North America
+353         Africa   North America
+354  South America   North America
+355  North America   North America
+356  North America   North America
+357  South America   North America
+358         Africa          Africa
+359         Africa          Africa
+360  North America   North America
+361  North America   North America
+362  South America   North America
+363  North America   North America
+364  North America   North America
+365           Asia   North America
+366         Africa   South America
+367  North America   North America
+368  South America   North America
+369  North America   North America
+370  North America   North America
+371         Africa   North America
+372  North America   North America
+373  South America   North America
+374           Asia   North America
+375  North America   North America
+376  South America   North America
+377  North America   North America
+378  North America   North America
+379  South America   South America
+380  North America   North America
+381         Africa   North America
+382  North America   North America
+383           Asia   South America
+384  South America   South America
+385  North America   North America
+386         Africa   North America
+387  North America   North America
+388  South America   South America
+389  North America   North America
+390  South America   North America
+391  North America   North America
+392  South America   South America
+393  South America   South America
+394  North America   North America
+395  North America   North America
+396  South America   South America
+397  South America   South America
+398         Africa          Africa
+399  North America   North America
+400  North America   South America
+401  North America          Africa
+402  North America   North America
+403           Asia   North America
+404  North America          Africa
+405           Asia   North America
+406           Asia   North America
+407  South America          Africa
+408  North America   North America
+409  South America   North America
+410           Asia   North America
+411  North America   North America
+412  North America   North America
+413  South America   South America
+414         Africa          Africa
+415  South America   South America
+416  South America   North America
+417           Asia   North America
+418         Africa   North America
+419         Africa          Africa
+420  North America   North America
+421           Asia   North America
+422  North America   South America
+423  North America   North America
+424  North America   North America
+425  North America   North America
+426  North America   North America
+427  North America   North America
+428  North America   South America
+429           Asia   North America
+430  North America          Africa
+431  North America   North America
+432         Africa   North America
+433  South America   North America
+434  North America   North America
+435           Asia   South America
+436           Asia   North America
+437  South America   North America
+438  South America   North America
+439  North America   North America
+440  North America   North America
+441  North America   North America
+442           Asia   North America
+443  North America   North America
+444  South America   South America
+445  South America   South America
+446           Asia   South America
+447  North America   South America
+448  North America   North America
+449  North America   South America
+450  South America   North America
+451  North America   North America
+452         Africa          Africa
+453  South America   North America
+454  North America   North America
+455  North America   North America
+456           Asia   North America
+457  North America   North America
+458  North America          Africa
+459  North America   North America
+460  North America   North America
+461  North America   North America
+462           Asia   North America
+463  North America   North America
+464  South America   South America
+465           Asia   North America
+466  North America   South America
+467           Asia          Africa
+468           Asia          Africa
+469         Africa   North America
+470  North America          Africa
+471           Asia   North America
+472  South America          Africa
+473         Africa   North America
+474         Africa   North America
+475  North America   South America
+476  North America   North America
+477         Africa          Africa
+478  North America   North America
+479           Asia   North America
+480  North America   North America
+481         Africa          Africa
+482  North America   North America
+483  North America   North America
+484  North America   North America
+485  South America   North America
+486  South America   North America
+487  North America   North America
+488  North America   North America
+489  South America   North America
+490         Africa          Africa
+491  North America   North America
+492  South America   South America
+493  North America   North America
+494  North America   North America
+495  South America   North America
+496  North America   North America
+497  South America   South America
+498  North America   North America
+499           Asia   North America
+500  South America   North America
+501  North America   South America
+502         Africa   North America
+503         Africa   North America
+504  South America   North America
+505  South America   South America
+506           Asia   South America
+507  North America   North America
+508  North America   North America
+509         Africa          Africa
+510  South America   North America
+511  North America   North America
+512  South America   South America
+513         Africa   North America
+514  South America   North America
+515         Africa   North America
+516         Africa   North America
+517  North America   North America
+518  South America   South America
+519  South America   North America
+520  North America   North America
+521  South America   North America
+522         Africa   North America
+523  South America   North America
+524  South America   North America
+525           Asia   North America
+526  North America          Africa
+527  South America   North America
+528  North America   North America
+529  South America   North America
+530  North America   North America
+531  North America   North America
+532  North America   North America
+533  North America   North America
+534  North America   North America
+535  South America   North America
+536           Asia   North America
+537           Asia   North America
+538           Asia   North America
+539  North America   South America
+540  South America   North America
+541  South America   South America
+542           Asia   North America
+543  North America          Africa
+544  North America   North America
+545  South America   South America
+546  North America   North America
+547  North America   North America
+548  North America   North America
+549  North America   North America
+550  South America   North America
+551         Africa   North America
+552  North America   North America
+553  North America   North America
+554         Africa   North America
+555  North America   North America
+556  South America   North America
+557  South America   South America
+558  South America   South America
+559  North America   North America
+560  South America   North America
+561  North America   North America
+562  South America   North America
+563  South America   South America
+564  North America   North America
+565  North America   North America
+566  North America   North America
+567  North America   North America
+568  North America   North America
+569  South America   North America
+570  North America   North America
+571  North America          Africa
+572  North America   North America
+573  North America   South America
+574  North America   South America
+575  North America   North America
+576  North America   North America
+577           Asia   North America
+578  North America   North America
+579           Asia          Africa
+580         Africa   North America
+581         Africa   North America
+582  North America   North America
+583  North America   North America
+584  North America   North America
+585           Asia   North America
+586  North America   North America
+587         Africa          Africa
+588  South America   North America
+589         Africa   South America
+590  North America   North America
+591  North America   North America
+592  South America   South America
+593  North America   North America
+594  North America   North America
+595  North America   North America
+596  North America   North America
+597  South America   South America
+598  North America   North America
+599  North America   North America
+600  North America   North America
+601  North America   North America
+602  South America   North America
+603  South America   North America
+604           Asia   North America
+605  North America   North America
+606  North America   South America
+607  North America   North America
+608  North America   North America
+609  South America          Africa
+610  North America   North America
+611  North America   North America
+612  South America   South America
+613  North America   North America
+614           Asia   North America
+615         Africa   North America
+616           Asia   North America
+617  South America   South America
+618           Asia   South America
+619  North America          Africa
+620  North America   North America
+621  North America   North America
+622  North America   North America
+623  South America   South America
+624           Asia   South America
+625  North America   South America
+626  North America   North America
+627  North America   North America
+628  North America   North America
+629  North America   North America
+630           Asia   South America
+631  South America   North America
+632  South America   South America
+633           Asia   North America
+634  South America   North America
+635  South America   North America
+636           Asia   North America
+637  North America          Africa
+638           Asia   South America
+639  South America   North America
+640  South America   North America
+641  South America   South America
+642  South America   North America
+643  North America   North America
+644  South America   South America
+645         Africa   North America
+646  South America   North America
+647  South America   South America
+648           Asia   North America
+649  South America   North America
+650         Africa   North America
+651  South America   North America
+652         Africa          Africa
+653         Africa   North America
+654  North America   North America
+655  South America   South America
+656  North America          Africa
+657  North America   North America
+658  North America   North America
+659  South America   South America
+660           Asia   South America
+661  North America   North America
+662  South America   South America
+663         Africa   North America
+664           Asia   South America
+665  South America   North America
+666  South America   North America
+667         Africa          Africa
+668  North America   North America
+669  North America   North America
+670  North America   North America
+671  North America   North America
+672           Asia   South America
+673  South America   South America
+674  South America   South America
+675  South America   North America
+676  North America   North America
+677           Asia   North America
+678  North America   North America
+679  North America   North America
+680  South America   South America
+681           Asia          Africa
+682  North America   North America
+683  North America   North America
+684  South America   South America
+685  South America   North America
+686  North America   North America
+687  North America          Africa
+688  North America   North America
+689  North America   North America
+690         Africa   North America
+691  South America   South America
+692  North America   North America
+693  North America   North America
+694         Africa   South America
+695  South America   North America
+696  South America   North America
+697  North America   North America
+698  South America   North America
+699  South America   North America
+700         Africa   North America
+701  North America   North America
+702  North America          Africa
+703  North America   North America
+704         Africa   South America
+705         Africa   North America
+706  South America          Africa
+707           Asia   South America
+708  North America   North America
+709  North America   North America
+710         Africa   North America
+711  North America   South America
+712           Asia   North America
+713  South America   North America
+714  North America   North America
+715  South America   North America
+716  North America   North America
+717  North America          Africa
+718           Asia   South America
+719  South America   North America
+720           Asia   North America
+721  North America   North America
+722         Africa   North America
+723  North America   North America
+724  South America   North America
+725         Africa   South America
+726  North America   North America
+727  North America   North America
+728           Asia   North America
+729         Africa   North America
+730  South America   South America
+731  North America   North America
+732  North America   North America
+733         Africa          Africa
+734  North America   North America
+735           Asia   South America
+736         Africa   North America
+737  North America   North America
+738  North America   South America
+739  North America   North America
+740  North America   North America
+741  North America   North America
+742  South America   North America
+743  South America   South America
+744  South America   South America
+745         Africa   North America
+746  North America   North America
+747  South America   North America
+748  South America   South America
+749  South America   South America
+750  North America   North America
+751  North America   North America
+752         Africa   North America
+753  North America   North America
+754  North America   North America
+755         Africa   North America
+756  North America          Africa
+757  South America   South America
+758  North America   North America
+759           Asia   North America
+760  North America   North America
+761  South America   North America
+762           Asia   North America
+763  North America   North America
+764  South America   North America
+765  North America          Africa
+766  North America   North America
+767  North America   North America
+768  North America   North America
+769  North America   South America
+770         Africa          Africa
+771           Asia   North America
+772  South America   North America
+773         Africa          Africa
+774  North America   North America
+775  North America   North America
+776  North America   North America
+777  North America   North America
+778  South America   South America
+779  South America   South America
+780  North America          Africa
+781  South America   South America
+782  North America   North America
+783  North America   North America
+784           Asia   North America
+785  South America   North America
+786  North America   North America
+787  North America   North America
+788  South America   North America
+789         Africa          Africa
+790         Africa   North America
+791  South America   South America
+792  North America   South America
+793  North America   North America
+794  North America   North America
+795  North America   South America
+796  North America   North America
+797           Asia   North America
+798  North America   North America
+799         Africa          Africa
+800         Africa          Africa
+801         Africa          Africa
+802         Africa   North America
+803  North America   North America
+804         Africa          Africa
+805         Africa   North America
+806         Africa   South America
+807  North America   North America
+808  North America   North America
+809  North America   North America
+810  North America   North America
+811  North America   North America
+812  North America   North America
+813         Africa   North America
+814  South America   North America
+815         Africa   South America
+816           Asia   North America
+817  North America   North America
+818  South America   North America
+819  South America          Africa
+820           Asia   North America
+821  North America          Africa
+822           Asia   North America
+823  South America   North America
+824  South America   North America
+825  North America   North America
+826  South America          Africa
+827         Africa   North America
+828  North America   North America
+829  South America   South America
+830  North America          Africa
+831         Africa   North America
+832  North America   North America
+833  North America   South America
+834  South America   North America
+835         Africa   North America
+836         Africa   North America
+837  North America   South America
+838  North America   North America
+839  North America   North America
+840  North America   North America
+841  North America   North America
+842  North America   North America
+843  North America   North America
+844  North America   North America
+845  North America   South America
+846  North America   North America
+847           Asia   North America
+848  North America   South America
+849  North America   North America
+850  North America   North America
+851  North America   North America
+852  North America   North America
+853  North America          Africa
+854         Africa          Africa
+855  North America   North America
+856  South America   South America
+857  South America   South America
+858  North America   North America
+859  North America   North America
+860  South America   South America
+861  North America   North America
+862  North America   North America
+863  North America   North America
+864  North America          Africa
+865  North America   North America
+866         Africa          Africa
+867  South America   North America
+868         Africa   North America
+869  North America   North America
+870  South America   South America
+871  South America   South America
+872           Asia   North America
+873  South America   North America
+874  North America   North America
+875  South America   North America
+876  South America   South America
+877  South America          Africa
+878  North America   North America
+879  North America   South America
+880  South America   South America
+881  North America          Africa
+882  South America   North America
+883         Africa   North America
+884  North America   North America
+885           Asia   North America
+886  South America   South America
+887  North America   North America
+888  South America          Africa
+889           Asia   North America
+890  North America   North America
+891           Asia   North America
+892           Asia   North America
+893  North America   North America
+894  North America   South America
+895           Asia   North America
+896  South America   North America
+897  North America   North America
+898  North America   North America
+899  North America   North America
+900  North America          Africa
+901  North America   South America
+902           Asia   North America
+903  South America   North America
+904  South America   South America
+905  South America   North America
+906  North America   North America
+907           Asia   North America
+908  South America   South America
+909  North America   North America
+910  North America   North America
+911  South America   North America
+912  North America   North America
+913  South America          Africa
+914  North America   South America
+915         Africa   South America
+916  South America   South America
+917           Asia   South America
+918  South America   North America
+919           Asia   South America
+920           Asia   North America
+921         Africa          Africa
+922  North America   North America
+923  North America   North America
+924  North America   North America
+925         Africa   North America
+926  North America   North America
+927           Asia   North America
+928  North America   North America
+929  North America   North America
+930  North America   North America
+931  South America   North America
+932  North America   North America
+933  North America   North America
+934  North America   North America
+935  North America   North America
+936         Africa   North America
+937  North America   North America
+938  North America   North America
+939  North America   North America
+940  South America   North America
+941           Asia   North America
+942  North America   North America
+943  North America   North America
+944         Africa          Africa
+945  South America   North America
+946  South America   North America
+947  North America   North America
+948  North America   North America
+949  North America   North America
+950  South America   North America
+951           Asia   South America
+952  North America   North America
+953  North America   North America
+954  North America   North America
+955  North America   North America
+956  South America   South America
+957  South America   South America
+958  North America   North America
+959  North America   North America
+960           Asia   South America
+961         Africa   North America
+962  North America   North America
+963  North America   North America
+964         Africa          Africa
+965  North America   North America
+966         Africa   North America
+967  North America   North America
+968           Asia   North America
+969  North America   North America
+970  North America   North America
+971           Asia   North America
+972         Africa   South America
+973  North America   North America
+974  North America   North America
+975  South America   South America
+976  North America   North America
+977  North America   North America
+978  South America   North America
+979  North America   South America
+980           Asia   North America
+981  North America   South America
+982  North America   North America
+983  North America   North America
+984  North America   North America
+985  South America   North America
+986  North America   North America
+987         Africa   South America
+988  North America   North America
+989  North America   North America
+990  North America   North America
+991         Africa          Africa
+992           Asia   South America
+993  South America          Africa
+994  South America   South America
+995           Asia   North America
+996           Asia   South America
+997           Asia   North America
+998  South America   North America
+999         Africa          Africa
+1000          Asia   North America
+1001 North America   South America
+1002 North America          Africa
+1003 North America   North America
+1004 South America   South America
+1005 South America   North America
+1006 North America   North America
+1007 North America   North America
+1008 North America   North America
+1009 North America   North America
+1010 North America   North America
+1011 North America   South America
+1012 North America   North America
+1013 North America   North America
+1014 North America   North America
+1015          Asia   South America
+1016 North America   South America
+1017        Africa   North America
+1018 North America   North America
+1019 North America   North America
+1020 South America   South America
+1021 North America   North America
+1022 South America   North America
+1023          Asia   North America
+1024 North America   North America
+1025 South America          Africa
+1026          Asia   North America
+1027 North America   North America
+1028          Asia   North America
+1029 South America   North America
+1030 South America   South America
+1031        Africa   North America
+1032 North America   North America
+1033 North America   North America
+1034 North America   South America
+1035 South America   South America
+1036 North America   North America
+1037 South America   North America
+1038 South America   North America
+1039 North America   North America
+1040 South America   North America
+1041 North America   North America
+1042        Africa   North America
+1043 North America   North America
+1044 North America   North America
+1045 North America   North America
+1046        Africa   North America
+1047 North America   North America
+1048 South America   North America
+1049 North America          Africa
+1050 North America   North America
+1051 North America   North America
+1052          Asia   North America
+1053 North America   North America
+1054          Asia          Africa
+1055 South America   North America
+1056 North America   North America
+1057          Asia   South America
+1058 South America   North America
+1059          Asia   South America
+1060          Asia   North America
+1061 South America   North America
+1062 South America   North America
+1063 North America   North America
+1064          Asia   North America
+1065        Africa          Africa
+1066 North America          Africa
+1067 North America   North America
+1068 South America   South America
+1069 North America   North America</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>predict_new <span class="ot">&lt;-</span> test <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(continent) <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(mod_tree_all, <span class="at">new_data =</span> new_test, <span class="at">type =</span> <span class="st">"class"</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">continent_dtree =</span> .pred_class)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>predict_new</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        continent continent_dtree
+1   South America   North America
+2   South America   North America
+3   South America   South America
+4   South America   North America
+5   South America   North America
+6   South America   North America
+7   South America   North America
+8   South America   North America
+9   South America   North America
+10  South America   North America
+11  South America   North America
+12  South America   South America
+13  South America   North America
+14  South America   North America
+15  South America   North America
+16  South America   North America
+17  South America   North America
+18  South America   North America
+19  South America   North America
+20  South America   North America
+21  South America   North America
+22  South America   North America
+23  South America   North America
+24  South America   North America
+25  South America   North America
+26  South America   North America
+27  South America   North America
+28  South America   North America
+29  South America   North America
+30         Africa   South America
+31           Asia   South America
+32           Asia   North America
+33           Asia   North America
+34           Asia   North America
+35           Asia   North America
+36           Asia   North America
+37  South America   North America
+38  South America   North America
+39  South America   South America
+40  South America   North America
+41  South America   North America
+42  South America   South America
+43  South America   South America
+44  South America   North America
+45  South America   North America
+46  South America          Africa
+47  South America   South America
+48  South America   North America
+49  South America   South America
+50  South America   South America
+51  South America   South America
+52  South America   South America
+53  South America   South America
+54  South America   South America
+55  South America   South America
+56  South America   North America
+57  South America   South America
+58  South America   North America
+59  South America   North America
+60  South America   North America
+61  South America   North America
+62  South America          Africa
+63  South America   South America
+64  South America   South America
+65  South America   North America
+66  South America   North America
+67  South America   North America
+68  South America   South America
+69  North America   North America
+70  North America   South America
+71  North America   North America
+72  North America   South America
+73  North America          Africa
+74  North America   North America
+75  North America   North America
+76  North America   North America
+77  North America   North America
+78  North America          Africa
+79  North America   North America
+80  North America          Africa
+81  North America   South America
+82  North America          Africa
+83  North America   South America
+84  North America   South America
+85  North America          Africa
+86  South America   South America
+87  North America   North America
+88  North America          Africa
+89  North America   North America
+90  North America   South America
+91  North America          Africa
+92         Africa          Africa
+93         Africa          Africa
+94         Africa   North America
+95         Africa          Africa
+96         Africa          Africa
+97         Africa          Africa
+98         Africa          Africa
+99         Africa   North America
+100        Africa          Africa
+101 North America   North America
+102 North America   South America
+103 North America   South America
+104 North America   North America
+105 North America   North America
+106 North America   North America
+107 North America   South America
+108 North America   North America
+109 North America   North America
+110 North America   North America
+111 North America   North America
+112 North America   North America
+113 North America   North America
+114 North America   North America
+115 North America   North America
+116 North America   North America
+117 North America   North America
+118 North America   South America
+119 North America   North America
+120 North America   North America
+121 North America   North America
+122 North America   North America
+123 North America   North America
+124 North America   North America
+125 North America   North America
+126 North America   North America
+127 North America   North America
+128 North America   North America
+129 North America   North America
+130 North America   North America
+131 North America   North America
+132 North America   North America
+133 North America   North America
+134 North America   North America
+135 North America   North America
+136 North America   North America
+137 North America   North America
+138 North America   North America
+139 North America   North America
+140 North America   North America
+141 North America   North America
+142 North America   North America
+143 North America   North America
+144          Asia   North America
+145          Asia   North America
+146          Asia   North America
+147          Asia   North America
+148          Asia   North America
+149          Asia   North America
+150          Asia   North America
+151          Asia   North America
+152          Asia   North America
+153          Asia   North America
+154        Africa   North America
+155        Africa   North America
+156        Africa   North America
+157        Africa   North America
+158        Africa   North America
+159        Africa          Africa
+160        Africa   North America
+161        Africa   North America
+162        Africa   North America
+163        Africa   North America
+164        Africa   North America
+165 North America   North America
+166 North America   North America
+167 North America   North America
+168 North America   North America
+169 North America   North America
+170 North America   North America
+171 North America   North America
+172 North America   North America
+173 North America   North America
+174 North America   North America
+175 North America   North America
+176 North America   North America
+177 North America   North America
+178 North America   North America
+179 North America   North America
+180 North America   North America
+181 North America   North America
+182 North America   North America
+183 North America   North America
+184 North America   North America
+185 North America   North America
+186 North America   North America
+187 North America   North America
+188 North America   North America
+189 North America   North America
+190 North America   North America
+191 North America   North America
+192 North America   North America
+193 North America   North America
+194 North America   South America
+195 North America   North America
+196 North America   North America
+197 North America   North America
+198 North America   North America
+199 North America   North America
+200 North America   North America
+201 North America   North America
+202 North America   North America
+203 North America   North America
+204 North America   North America
+205 North America   North America
+206 North America   North America
+207 North America   South America
+208 North America   North America
+209          Asia   North America
+210 North America   North America
+211 North America   North America
+212 North America   North America
+213 North America   North America
+214 North America          Africa
+215 North America   North America
+216 North America   North America
+217 North America   North America
+218 North America   North America
+219 South America          Africa
+220 South America   North America
+221          Asia   North America
+222 North America   North America
+223          Asia   South America
+224          Asia   North America
+225          Asia   North America
+226          Asia   North America
+227          Asia   North America
+228          Asia   North America
+229          Asia   North America
+230          Asia   North America
+231          Asia   South America
+232          Asia   South America
+233          Asia   North America
+234          Asia   North America
+235        Africa   South America
+236        Africa   North America
+237        Africa   South America
+238        Africa   North America
+239        Africa   North America
+240          Asia   North America
+241          Asia   North America
+242          Asia   North America
+243          Asia   North America
+244          Asia   North America
+245          Asia   North America
+246          Asia   North America
+247          Asia   South America
+248        Africa   South America
+249        Africa          Africa
+250        Africa   North America
+251        Africa   North America
+252        Africa   South America
+253        Africa   South America
+254 North America   North America
+255 North America   North America
+256 North America   North America
+257 North America          Africa
+258 North America          Africa
+259 North America   South America
+260 North America   South America
+261 North America   North America
+262 North America   North America
+263 North America   North America
+264 North America   North America
+265 North America   North America
+266 North America   North America
+267          Asia   North America
+268          Asia   South America</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(pred_all, continent, continent_dtree)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric  .estimator .estimate
+  &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+1 accuracy multiclass     0.550</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(predict_new, continent, continent_dtree)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric  .estimator .estimate
+  &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+1 accuracy multiclass     0.504</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>conf_matrix <span class="ot">&lt;-</span> pred_all <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">conf_mat</span>(<span class="at">truth =</span> continent, <span class="at">estimate =</span> continent_dtree)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>conf_matrix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               Truth
+Prediction      Africa Asia North America South America
+  Africa            40    6            31            12
+  Asia               0    0             0             0
+  North America     74  105           446           150
+  South America     16   31            56           102</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>mod_forest <span class="ot">&lt;-</span> <span class="fu">rand_forest</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"classification"</span>, </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mtry =</span> <span class="dv">6</span>, </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">trees =</span> <span class="dv">250</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set_engine</span>(<span class="st">"randomForest"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fit</span>(<span class="at">formula =</span> form_all, <span class="at">data =</span> train)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>pred_forest <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(continent) <span class="sc">%&gt;%</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(mod_forest, <span class="at">new_data =</span> train, <span class="at">type =</span> <span class="st">"class"</span>)</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>pred_forest</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         continent   .pred_class
+1    North America North America
+2    North America North America
+3             Asia          Asia
+4    South America South America
+5    North America North America
+6           Africa        Africa
+7             Asia          Asia
+8    South America North America
+9    North America North America
+10   North America North America
+11   South America South America
+12          Africa        Africa
+13   South America South America
+14            Asia          Asia
+15            Asia          Asia
+16   North America North America
+17   South America South America
+18          Africa        Africa
+19   North America North America
+20   North America North America
+21   North America North America
+22   North America North America
+23   North America North America
+24   North America North America
+25            Asia          Asia
+26   South America South America
+27   North America North America
+28   South America South America
+29   North America North America
+30          Africa        Africa
+31   North America North America
+32   South America South America
+33   South America South America
+34   North America North America
+35   North America North America
+36   South America South America
+37            Asia          Asia
+38   North America North America
+39            Asia          Asia
+40   North America North America
+41          Africa        Africa
+42   South America South America
+43   North America North America
+44   North America South America
+45   North America North America
+46   North America North America
+47   South America South America
+48   North America North America
+49   North America North America
+50   South America South America
+51   North America North America
+52          Africa        Africa
+53   North America North America
+54   North America North America
+55   South America South America
+56   North America North America
+57   North America North America
+58   North America North America
+59   North America North America
+60            Asia          Asia
+61   North America North America
+62   North America North America
+63   North America North America
+64   North America North America
+65   North America North America
+66            Asia          Asia
+67   South America South America
+68   North America North America
+69   North America North America
+70   North America North America
+71   North America North America
+72            Asia          Asia
+73   North America North America
+74            Asia          Asia
+75            Asia          Asia
+76   North America North America
+77   North America North America
+78            Asia          Asia
+79   South America South America
+80          Africa        Africa
+81          Africa        Africa
+82   South America South America
+83   North America North America
+84          Africa        Africa
+85          Africa        Africa
+86          Africa        Africa
+87   North America North America
+88          Africa        Africa
+89   North America North America
+90   North America North America
+91   North America North America
+92   North America North America
+93          Africa        Africa
+94   North America North America
+95   North America North America
+96   South America South America
+97   North America North America
+98   North America North America
+99   North America North America
+100  North America North America
+101  North America North America
+102  North America North America
+103         Africa        Africa
+104  North America North America
+105  South America South America
+106  South America South America
+107  North America North America
+108           Asia          Asia
+109           Asia          Asia
+110  North America North America
+111           Asia          Asia
+112  North America North America
+113  North America North America
+114  South America        Africa
+115  North America North America
+116  North America North America
+117         Africa        Africa
+118  North America North America
+119  South America South America
+120  South America South America
+121  North America North America
+122  South America South America
+123  South America South America
+124  South America South America
+125  North America North America
+126           Asia          Asia
+127           Asia          Asia
+128  North America North America
+129  South America South America
+130  North America          Asia
+131           Asia          Asia
+132           Asia          Asia
+133  North America North America
+134  North America North America
+135           Asia          Asia
+136  North America North America
+137  North America North America
+138           Asia          Asia
+139  North America North America
+140         Africa        Africa
+141           Asia          Asia
+142         Africa        Africa
+143  North America North America
+144  North America North America
+145           Asia          Asia
+146           Asia          Asia
+147  South America South America
+148         Africa        Africa
+149  North America North America
+150  North America North America
+151  South America South America
+152  South America South America
+153         Africa        Africa
+154  North America North America
+155  North America North America
+156  North America North America
+157           Asia          Asia
+158  North America North America
+159  North America North America
+160  North America North America
+161  North America North America
+162  South America South America
+163  South America South America
+164  South America South America
+165  North America North America
+166           Asia South America
+167  South America South America
+168  North America North America
+169  South America South America
+170  North America North America
+171         Africa        Africa
+172  North America North America
+173           Asia          Asia
+174  North America North America
+175  South America South America
+176           Asia North America
+177  South America South America
+178  South America South America
+179  North America North America
+180  North America North America
+181  North America North America
+182  South America South America
+183  North America North America
+184  North America North America
+185  South America South America
+186  South America South America
+187  North America North America
+188  North America North America
+189  North America North America
+190         Africa        Africa
+191  South America South America
+192  North America North America
+193  North America North America
+194  South America South America
+195  North America North America
+196  South America South America
+197           Asia          Asia
+198  North America North America
+199  North America North America
+200  North America North America
+201  North America North America
+202           Asia          Asia
+203  North America North America
+204         Africa        Africa
+205  North America North America
+206  South America South America
+207  North America North America
+208  North America North America
+209           Asia          Asia
+210  North America North America
+211  North America North America
+212  North America North America
+213           Asia          Asia
+214  South America South America
+215  North America North America
+216  South America South America
+217  North America North America
+218  North America North America
+219  South America South America
+220  North America North America
+221  North America North America
+222  North America North America
+223  North America North America
+224         Africa        Africa
+225  North America North America
+226           Asia          Asia
+227  South America South America
+228  North America North America
+229           Asia          Asia
+230  North America North America
+231         Africa        Africa
+232  North America North America
+233           Asia          Asia
+234  South America South America
+235  North America North America
+236  North America North America
+237         Africa        Africa
+238  North America North America
+239  North America North America
+240  North America North America
+241  South America South America
+242           Asia          Asia
+243  North America North America
+244         Africa        Africa
+245         Africa        Africa
+246         Africa        Africa
+247  South America South America
+248  South America South America
+249  South America South America
+250  North America North America
+251  South America South America
+252  South America South America
+253  North America North America
+254  South America South America
+255         Africa        Africa
+256           Asia          Asia
+257  North America North America
+258           Asia          Asia
+259  North America North America
+260  North America North America
+261  North America North America
+262  North America North America
+263  South America South America
+264  South America South America
+265  South America North America
+266  North America North America
+267         Africa        Africa
+268  North America North America
+269  North America North America
+270  North America North America
+271  North America North America
+272         Africa        Africa
+273  South America South America
+274         Africa        Africa
+275  North America North America
+276  North America North America
+277  North America North America
+278  North America North America
+279  North America North America
+280  South America South America
+281  South America South America
+282  South America South America
+283  North America North America
+284           Asia          Asia
+285  North America North America
+286           Asia          Asia
+287  South America South America
+288  North America North America
+289  South America South America
+290  North America North America
+291  South America South America
+292  South America South America
+293  North America North America
+294           Asia          Asia
+295         Africa        Africa
+296  South America South America
+297  South America South America
+298  North America North America
+299  North America North America
+300  South America South America
+301  North America North America
+302  North America North America
+303  South America South America
+304  North America North America
+305  South America South America
+306  South America South America
+307           Asia          Asia
+308         Africa        Africa
+309  North America North America
+310  North America North America
+311           Asia          Asia
+312  South America South America
+313  North America North America
+314           Asia          Asia
+315           Asia          Asia
+316  North America North America
+317  North America North America
+318  North America North America
+319  North America North America
+320         Africa        Africa
+321  North America North America
+322  South America South America
+323  South America South America
+324           Asia          Asia
+325  South America South America
+326  North America North America
+327  North America North America
+328  North America North America
+329         Africa        Africa
+330  North America North America
+331         Africa        Africa
+332  North America North America
+333  North America North America
+334  South America South America
+335  South America South America
+336  North America North America
+337  North America North America
+338         Africa        Africa
+339  North America North America
+340  North America North America
+341  North America North America
+342  North America North America
+343  North America North America
+344           Asia          Asia
+345         Africa        Africa
+346  North America North America
+347  South America South America
+348  South America South America
+349  South America South America
+350  South America South America
+351  North America North America
+352  North America North America
+353         Africa        Africa
+354  South America South America
+355  North America North America
+356  North America North America
+357  South America South America
+358         Africa        Africa
+359         Africa        Africa
+360  North America North America
+361  North America North America
+362  South America South America
+363  North America North America
+364  North America North America
+365           Asia          Asia
+366         Africa        Africa
+367  North America North America
+368  South America South America
+369  North America North America
+370  North America North America
+371         Africa        Africa
+372  North America North America
+373  South America South America
+374           Asia          Asia
+375  North America North America
+376  South America South America
+377  North America North America
+378  North America North America
+379  South America South America
+380  North America North America
+381         Africa        Africa
+382  North America North America
+383           Asia          Asia
+384  South America South America
+385  North America North America
+386         Africa        Africa
+387  North America North America
+388  South America South America
+389  North America North America
+390  South America South America
+391  North America North America
+392  South America South America
+393  South America South America
+394  North America North America
+395  North America North America
+396  South America South America
+397  South America South America
+398         Africa        Africa
+399  North America North America
+400  North America North America
+401  North America North America
+402  North America North America
+403           Asia          Asia
+404  North America North America
+405           Asia          Asia
+406           Asia          Asia
+407  South America South America
+408  North America North America
+409  South America South America
+410           Asia          Asia
+411  North America North America
+412  North America North America
+413  South America South America
+414         Africa        Africa
+415  South America South America
+416  South America South America
+417           Asia          Asia
+418         Africa        Africa
+419         Africa        Africa
+420  North America North America
+421           Asia          Asia
+422  North America North America
+423  North America North America
+424  North America North America
+425  North America        Africa
+426  North America North America
+427  North America North America
+428  North America North America
+429           Asia          Asia
+430  North America North America
+431  North America North America
+432         Africa        Africa
+433  South America South America
+434  North America North America
+435           Asia          Asia
+436           Asia          Asia
+437  South America South America
+438  South America South America
+439  North America North America
+440  North America North America
+441  North America North America
+442           Asia          Asia
+443  North America North America
+444  South America South America
+445  South America South America
+446           Asia          Asia
+447  North America North America
+448  North America North America
+449  North America North America
+450  South America South America
+451  North America North America
+452         Africa        Africa
+453  South America South America
+454  North America North America
+455  North America North America
+456           Asia          Asia
+457  North America North America
+458  North America North America
+459  North America North America
+460  North America North America
+461  North America North America
+462           Asia          Asia
+463  North America North America
+464  South America South America
+465           Asia          Asia
+466  North America North America
+467           Asia          Asia
+468           Asia          Asia
+469         Africa        Africa
+470  North America North America
+471           Asia          Asia
+472  South America South America
+473         Africa        Africa
+474         Africa        Africa
+475  North America South America
+476  North America North America
+477         Africa        Africa
+478  North America North America
+479           Asia          Asia
+480  North America North America
+481         Africa        Africa
+482  North America North America
+483  North America North America
+484  North America North America
+485  South America South America
+486  South America South America
+487  North America North America
+488  North America North America
+489  South America South America
+490         Africa        Africa
+491  North America North America
+492  South America South America
+493  North America North America
+494  North America North America
+495  South America North America
+496  North America North America
+497  South America South America
+498  North America North America
+499           Asia          Asia
+500  South America South America
+501  North America North America
+502         Africa        Africa
+503         Africa        Africa
+504  South America South America
+505  South America South America
+506           Asia          Asia
+507  North America North America
+508  North America North America
+509         Africa        Africa
+510  South America South America
+511  North America North America
+512  South America South America
+513         Africa        Africa
+514  South America South America
+515         Africa        Africa
+516         Africa        Africa
+517  North America North America
+518  South America South America
+519  South America South America
+520  North America North America
+521  South America South America
+522         Africa        Africa
+523  South America South America
+524  South America South America
+525           Asia          Asia
+526  North America North America
+527  South America South America
+528  North America North America
+529  South America South America
+530  North America North America
+531  North America North America
+532  North America North America
+533  North America North America
+534  North America North America
+535  South America South America
+536           Asia          Asia
+537           Asia          Asia
+538           Asia          Asia
+539  North America North America
+540  South America South America
+541  South America South America
+542           Asia          Asia
+543  North America North America
+544  North America North America
+545  South America South America
+546  North America North America
+547  North America North America
+548  North America North America
+549  North America North America
+550  South America South America
+551         Africa        Africa
+552  North America North America
+553  North America North America
+554         Africa        Africa
+555  North America North America
+556  South America South America
+557  South America South America
+558  South America South America
+559  North America North America
+560  South America South America
+561  North America North America
+562  South America South America
+563  South America South America
+564  North America North America
+565  North America North America
+566  North America North America
+567  North America North America
+568  North America North America
+569  South America South America
+570  North America North America
+571  North America North America
+572  North America North America
+573  North America North America
+574  North America North America
+575  North America North America
+576  North America North America
+577           Asia          Asia
+578  North America North America
+579           Asia          Asia
+580         Africa        Africa
+581         Africa        Africa
+582  North America North America
+583  North America North America
+584  North America North America
+585           Asia          Asia
+586  North America North America
+587         Africa        Africa
+588  South America South America
+589         Africa        Africa
+590  North America North America
+591  North America North America
+592  South America South America
+593  North America North America
+594  North America North America
+595  North America North America
+596  North America North America
+597  South America South America
+598  North America North America
+599  North America North America
+600  North America North America
+601  North America North America
+602  South America North America
+603  South America South America
+604           Asia          Asia
+605  North America North America
+606  North America North America
+607  North America North America
+608  North America North America
+609  South America South America
+610  North America North America
+611  North America North America
+612  South America South America
+613  North America North America
+614           Asia          Asia
+615         Africa        Africa
+616           Asia          Asia
+617  South America South America
+618           Asia          Asia
+619  North America North America
+620  North America North America
+621  North America North America
+622  North America North America
+623  South America South America
+624           Asia          Asia
+625  North America North America
+626  North America North America
+627  North America North America
+628  North America North America
+629  North America North America
+630           Asia          Asia
+631  South America South America
+632  South America South America
+633           Asia          Asia
+634  South America South America
+635  South America South America
+636           Asia          Asia
+637  North America North America
+638           Asia          Asia
+639  South America South America
+640  South America South America
+641  South America South America
+642  South America South America
+643  North America North America
+644  South America South America
+645         Africa        Africa
+646  South America South America
+647  South America South America
+648           Asia          Asia
+649  South America North America
+650         Africa        Africa
+651  South America South America
+652         Africa        Africa
+653         Africa        Africa
+654  North America North America
+655  South America South America
+656  North America North America
+657  North America North America
+658  North America North America
+659  South America South America
+660           Asia          Asia
+661  North America North America
+662  South America South America
+663         Africa        Africa
+664           Asia          Asia
+665  South America South America
+666  South America South America
+667         Africa        Africa
+668  North America North America
+669  North America North America
+670  North America North America
+671  North America North America
+672           Asia          Asia
+673  South America South America
+674  South America South America
+675  South America South America
+676  North America North America
+677           Asia          Asia
+678  North America North America
+679  North America North America
+680  South America South America
+681           Asia          Asia
+682  North America North America
+683  North America North America
+684  South America South America
+685  South America South America
+686  North America North America
+687  North America North America
+688  North America North America
+689  North America North America
+690         Africa        Africa
+691  South America South America
+692  North America North America
+693  North America North America
+694         Africa        Africa
+695  South America South America
+696  South America South America
+697  North America North America
+698  South America South America
+699  South America South America
+700         Africa        Africa
+701  North America North America
+702  North America North America
+703  North America North America
+704         Africa        Africa
+705         Africa        Africa
+706  South America South America
+707           Asia          Asia
+708  North America North America
+709  North America North America
+710         Africa        Africa
+711  North America North America
+712           Asia          Asia
+713  South America South America
+714  North America North America
+715  South America South America
+716  North America North America
+717  North America North America
+718           Asia          Asia
+719  South America South America
+720           Asia          Asia
+721  North America North America
+722         Africa        Africa
+723  North America North America
+724  South America South America
+725         Africa        Africa
+726  North America North America
+727  North America North America
+728           Asia          Asia
+729         Africa        Africa
+730  South America South America
+731  North America North America
+732  North America North America
+733         Africa        Africa
+734  North America North America
+735           Asia          Asia
+736         Africa        Africa
+737  North America North America
+738  North America North America
+739  North America North America
+740  North America North America
+741  North America North America
+742  South America South America
+743  South America South America
+744  South America South America
+745         Africa        Africa
+746  North America North America
+747  South America South America
+748  South America South America
+749  South America South America
+750  North America North America
+751  North America North America
+752         Africa        Africa
+753  North America North America
+754  North America North America
+755         Africa        Africa
+756  North America North America
+757  South America South America
+758  North America North America
+759           Asia          Asia
+760  North America North America
+761  South America South America
+762           Asia          Asia
+763  North America North America
+764  South America South America
+765  North America North America
+766  North America North America
+767  North America North America
+768  North America North America
+769  North America North America
+770         Africa        Africa
+771           Asia          Asia
+772  South America South America
+773         Africa        Africa
+774  North America North America
+775  North America North America
+776  North America North America
+777  North America North America
+778  South America South America
+779  South America South America
+780  North America North America
+781  South America South America
+782  North America North America
+783  North America North America
+784           Asia          Asia
+785  South America South America
+786  North America North America
+787  North America North America
+788  South America South America
+789         Africa        Africa
+790         Africa        Africa
+791  South America South America
+792  North America North America
+793  North America North America
+794  North America North America
+795  North America North America
+796  North America North America
+797           Asia          Asia
+798  North America North America
+799         Africa        Africa
+800         Africa        Africa
+801         Africa        Africa
+802         Africa        Africa
+803  North America North America
+804         Africa        Africa
+805         Africa        Africa
+806         Africa        Africa
+807  North America North America
+808  North America North America
+809  North America North America
+810  North America North America
+811  North America North America
+812  North America North America
+813         Africa        Africa
+814  South America South America
+815         Africa        Africa
+816           Asia          Asia
+817  North America North America
+818  South America North America
+819  South America South America
+820           Asia          Asia
+821  North America North America
+822           Asia          Asia
+823  South America South America
+824  South America South America
+825  North America North America
+826  South America South America
+827         Africa        Africa
+828  North America North America
+829  South America South America
+830  North America North America
+831         Africa        Africa
+832  North America North America
+833  North America North America
+834  South America South America
+835         Africa        Africa
+836         Africa        Africa
+837  North America North America
+838  North America North America
+839  North America North America
+840  North America North America
+841  North America North America
+842  North America North America
+843  North America North America
+844  North America North America
+845  North America North America
+846  North America North America
+847           Asia North America
+848  North America North America
+849  North America North America
+850  North America North America
+851  North America North America
+852  North America North America
+853  North America North America
+854         Africa        Africa
+855  North America North America
+856  South America South America
+857  South America South America
+858  North America North America
+859  North America North America
+860  South America South America
+861  North America North America
+862  North America North America
+863  North America North America
+864  North America North America
+865  North America North America
+866         Africa        Africa
+867  South America South America
+868         Africa        Africa
+869  North America North America
+870  South America South America
+871  South America South America
+872           Asia          Asia
+873  South America South America
+874  North America North America
+875  South America South America
+876  South America South America
+877  South America South America
+878  North America North America
+879  North America North America
+880  South America South America
+881  North America North America
+882  South America South America
+883         Africa        Africa
+884  North America North America
+885           Asia          Asia
+886  South America South America
+887  North America North America
+888  South America South America
+889           Asia          Asia
+890  North America North America
+891           Asia          Asia
+892           Asia          Asia
+893  North America North America
+894  North America North America
+895           Asia          Asia
+896  South America South America
+897  North America North America
+898  North America North America
+899  North America North America
+900  North America North America
+901  North America North America
+902           Asia          Asia
+903  South America South America
+904  South America South America
+905  South America North America
+906  North America North America
+907           Asia          Asia
+908  South America South America
+909  North America North America
+910  North America North America
+911  South America South America
+912  North America North America
+913  South America South America
+914  North America North America
+915         Africa        Africa
+916  South America South America
+917           Asia          Asia
+918  South America South America
+919           Asia          Asia
+920           Asia          Asia
+921         Africa        Africa
+922  North America North America
+923  North America North America
+924  North America North America
+925         Africa        Africa
+926  North America North America
+927           Asia          Asia
+928  North America North America
+929  North America North America
+930  North America North America
+931  South America South America
+932  North America North America
+933  North America North America
+934  North America North America
+935  North America North America
+936         Africa        Africa
+937  North America North America
+938  North America North America
+939  North America North America
+940  South America South America
+941           Asia          Asia
+942  North America North America
+943  North America North America
+944         Africa        Africa
+945  South America South America
+946  South America South America
+947  North America North America
+948  North America North America
+949  North America North America
+950  South America South America
+951           Asia          Asia
+952  North America North America
+953  North America North America
+954  North America North America
+955  North America North America
+956  South America South America
+957  South America South America
+958  North America North America
+959  North America North America
+960           Asia          Asia
+961         Africa        Africa
+962  North America North America
+963  North America North America
+964         Africa        Africa
+965  North America North America
+966         Africa        Africa
+967  North America North America
+968           Asia          Asia
+969  North America North America
+970  North America North America
+971           Asia          Asia
+972         Africa        Africa
+973  North America North America
+974  North America North America
+975  South America South America
+976  North America North America
+977  North America North America
+978  South America South America
+979  North America North America
+980           Asia          Asia
+981  North America North America
+982  North America North America
+983  North America North America
+984  North America North America
+985  South America South America
+986  North America North America
+987         Africa        Africa
+988  North America          Asia
+989  North America North America
+990  North America North America
+991         Africa        Africa
+992           Asia          Asia
+993  South America South America
+994  South America South America
+995           Asia          Asia
+996           Asia          Asia
+997           Asia          Asia
+998  South America South America
+999         Africa        Africa
+1000          Asia          Asia
+1001 North America North America
+1002 North America North America
+1003 North America North America
+1004 South America South America
+1005 South America South America
+1006 North America North America
+1007 North America North America
+1008 North America North America
+1009 North America North America
+1010 North America North America
+1011 North America North America
+1012 North America North America
+1013 North America North America
+1014 North America North America
+1015          Asia          Asia
+1016 North America North America
+1017        Africa        Africa
+1018 North America North America
+1019 North America North America
+1020 South America South America
+1021 North America North America
+1022 South America South America
+1023          Asia          Asia
+1024 North America North America
+1025 South America South America
+1026          Asia          Asia
+1027 North America North America
+1028          Asia          Asia
+1029 South America South America
+1030 South America South America
+1031        Africa        Africa
+1032 North America North America
+1033 North America North America
+1034 North America North America
+1035 South America South America
+1036 North America North America
+1037 South America South America
+1038 South America South America
+1039 North America North America
+1040 South America South America
+1041 North America North America
+1042        Africa        Africa
+1043 North America North America
+1044 North America North America
+1045 North America North America
+1046        Africa        Africa
+1047 North America North America
+1048 South America South America
+1049 North America North America
+1050 North America North America
+1051 North America North America
+1052          Asia          Asia
+1053 North America North America
+1054          Asia          Asia
+1055 South America South America
+1056 North America North America
+1057          Asia          Asia
+1058 South America South America
+1059          Asia          Asia
+1060          Asia          Asia
+1061 South America South America
+1062 South America South America
+1063 North America North America
+1064          Asia          Asia
+1065        Africa        Africa
+1066 North America North America
+1067 North America North America
+1068 South America South America
+1069 North America North America</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pred_forest_train <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(continent) <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(mod_forest, <span class="at">new_data =</span> new_train, <span class="at">type =</span> <span class="st">"class"</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>pred_forest_train</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         continent   .pred_class
+1    North America North America
+2    North America North America
+3             Asia          Asia
+4    South America South America
+5    North America North America
+6           Africa        Africa
+7             Asia          Asia
+8    South America North America
+9    North America North America
+10   North America North America
+11   South America South America
+12          Africa        Africa
+13   South America South America
+14            Asia          Asia
+15            Asia          Asia
+16   North America North America
+17   South America South America
+18          Africa        Africa
+19   North America North America
+20   North America North America
+21   North America North America
+22   North America North America
+23   North America North America
+24   North America North America
+25            Asia          Asia
+26   South America South America
+27   North America North America
+28   South America South America
+29   North America North America
+30          Africa        Africa
+31   North America North America
+32   South America South America
+33   South America South America
+34   North America North America
+35   North America North America
+36   South America South America
+37            Asia          Asia
+38   North America North America
+39            Asia          Asia
+40   North America North America
+41          Africa        Africa
+42   South America South America
+43   North America North America
+44   North America South America
+45   North America North America
+46   North America North America
+47   South America South America
+48   North America North America
+49   North America North America
+50   South America South America
+51   North America North America
+52          Africa        Africa
+53   North America North America
+54   North America North America
+55   South America South America
+56   North America North America
+57   North America North America
+58   North America North America
+59   North America North America
+60            Asia          Asia
+61   North America North America
+62   North America North America
+63   North America North America
+64   North America North America
+65   North America North America
+66            Asia          Asia
+67   South America South America
+68   North America North America
+69   North America North America
+70   North America North America
+71   North America North America
+72            Asia          Asia
+73   North America North America
+74            Asia          Asia
+75            Asia          Asia
+76   North America North America
+77   North America North America
+78            Asia          Asia
+79   South America South America
+80          Africa        Africa
+81          Africa        Africa
+82   South America South America
+83   North America North America
+84          Africa        Africa
+85          Africa        Africa
+86          Africa        Africa
+87   North America North America
+88          Africa        Africa
+89   North America North America
+90   North America North America
+91   North America North America
+92   North America North America
+93          Africa        Africa
+94   North America North America
+95   North America North America
+96   South America South America
+97   North America North America
+98   North America North America
+99   North America North America
+100  North America North America
+101  North America North America
+102  North America North America
+103         Africa        Africa
+104  North America North America
+105  South America South America
+106  South America South America
+107  North America North America
+108           Asia          Asia
+109           Asia          Asia
+110  North America North America
+111           Asia          Asia
+112  North America North America
+113  North America North America
+114  South America        Africa
+115  North America North America
+116  North America North America
+117         Africa        Africa
+118  North America North America
+119  South America South America
+120  South America South America
+121  North America North America
+122  South America South America
+123  South America South America
+124  South America South America
+125  North America North America
+126           Asia          Asia
+127           Asia          Asia
+128  North America North America
+129  South America South America
+130  North America          Asia
+131           Asia          Asia
+132           Asia          Asia
+133  North America North America
+134  North America North America
+135           Asia          Asia
+136  North America North America
+137  North America North America
+138           Asia          Asia
+139  North America North America
+140         Africa        Africa
+141           Asia          Asia
+142         Africa        Africa
+143  North America North America
+144  North America North America
+145           Asia          Asia
+146           Asia          Asia
+147  South America South America
+148         Africa        Africa
+149  North America North America
+150  North America North America
+151  South America South America
+152  South America South America
+153         Africa        Africa
+154  North America North America
+155  North America North America
+156  North America North America
+157           Asia          Asia
+158  North America North America
+159  North America North America
+160  North America North America
+161  North America North America
+162  South America South America
+163  South America South America
+164  South America South America
+165  North America North America
+166           Asia South America
+167  South America South America
+168  North America North America
+169  South America South America
+170  North America North America
+171         Africa        Africa
+172  North America North America
+173           Asia          Asia
+174  North America North America
+175  South America South America
+176           Asia North America
+177  South America South America
+178  South America South America
+179  North America North America
+180  North America North America
+181  North America North America
+182  South America South America
+183  North America North America
+184  North America North America
+185  South America South America
+186  South America South America
+187  North America North America
+188  North America North America
+189  North America North America
+190         Africa        Africa
+191  South America South America
+192  North America North America
+193  North America North America
+194  South America South America
+195  North America North America
+196  South America South America
+197           Asia          Asia
+198  North America North America
+199  North America North America
+200  North America North America
+201  North America North America
+202           Asia          Asia
+203  North America North America
+204         Africa        Africa
+205  North America North America
+206  South America South America
+207  North America North America
+208  North America North America
+209           Asia          Asia
+210  North America North America
+211  North America North America
+212  North America North America
+213           Asia          Asia
+214  South America South America
+215  North America North America
+216  South America South America
+217  North America North America
+218  North America North America
+219  South America South America
+220  North America North America
+221  North America North America
+222  North America North America
+223  North America North America
+224         Africa        Africa
+225  North America North America
+226           Asia          Asia
+227  South America South America
+228  North America North America
+229           Asia          Asia
+230  North America North America
+231         Africa        Africa
+232  North America North America
+233           Asia          Asia
+234  South America South America
+235  North America North America
+236  North America North America
+237         Africa        Africa
+238  North America North America
+239  North America North America
+240  North America North America
+241  South America South America
+242           Asia          Asia
+243  North America North America
+244         Africa        Africa
+245         Africa        Africa
+246         Africa        Africa
+247  South America South America
+248  South America South America
+249  South America South America
+250  North America North America
+251  South America South America
+252  South America South America
+253  North America North America
+254  South America South America
+255         Africa        Africa
+256           Asia          Asia
+257  North America North America
+258           Asia          Asia
+259  North America North America
+260  North America North America
+261  North America North America
+262  North America North America
+263  South America South America
+264  South America South America
+265  South America North America
+266  North America North America
+267         Africa        Africa
+268  North America North America
+269  North America North America
+270  North America North America
+271  North America North America
+272         Africa        Africa
+273  South America South America
+274         Africa        Africa
+275  North America North America
+276  North America North America
+277  North America North America
+278  North America North America
+279  North America North America
+280  South America South America
+281  South America South America
+282  South America South America
+283  North America North America
+284           Asia          Asia
+285  North America North America
+286           Asia          Asia
+287  South America South America
+288  North America North America
+289  South America South America
+290  North America North America
+291  South America South America
+292  South America South America
+293  North America North America
+294           Asia          Asia
+295         Africa        Africa
+296  South America South America
+297  South America South America
+298  North America North America
+299  North America North America
+300  South America South America
+301  North America North America
+302  North America North America
+303  South America South America
+304  North America North America
+305  South America South America
+306  South America South America
+307           Asia          Asia
+308         Africa        Africa
+309  North America North America
+310  North America North America
+311           Asia          Asia
+312  South America South America
+313  North America North America
+314           Asia          Asia
+315           Asia          Asia
+316  North America North America
+317  North America North America
+318  North America North America
+319  North America North America
+320         Africa        Africa
+321  North America North America
+322  South America South America
+323  South America South America
+324           Asia          Asia
+325  South America South America
+326  North America North America
+327  North America North America
+328  North America North America
+329         Africa        Africa
+330  North America North America
+331         Africa        Africa
+332  North America North America
+333  North America North America
+334  South America South America
+335  South America South America
+336  North America North America
+337  North America North America
+338         Africa        Africa
+339  North America North America
+340  North America North America
+341  North America North America
+342  North America North America
+343  North America North America
+344           Asia          Asia
+345         Africa        Africa
+346  North America North America
+347  South America South America
+348  South America South America
+349  South America South America
+350  South America South America
+351  North America North America
+352  North America North America
+353         Africa        Africa
+354  South America South America
+355  North America North America
+356  North America North America
+357  South America South America
+358         Africa        Africa
+359         Africa        Africa
+360  North America North America
+361  North America North America
+362  South America South America
+363  North America North America
+364  North America North America
+365           Asia          Asia
+366         Africa        Africa
+367  North America North America
+368  South America South America
+369  North America North America
+370  North America North America
+371         Africa        Africa
+372  North America North America
+373  South America South America
+374           Asia          Asia
+375  North America North America
+376  South America South America
+377  North America North America
+378  North America North America
+379  South America South America
+380  North America North America
+381         Africa        Africa
+382  North America North America
+383           Asia          Asia
+384  South America South America
+385  North America North America
+386         Africa        Africa
+387  North America North America
+388  South America South America
+389  North America North America
+390  South America South America
+391  North America North America
+392  South America South America
+393  South America South America
+394  North America North America
+395  North America North America
+396  South America South America
+397  South America South America
+398         Africa        Africa
+399  North America North America
+400  North America North America
+401  North America North America
+402  North America North America
+403           Asia          Asia
+404  North America North America
+405           Asia          Asia
+406           Asia          Asia
+407  South America South America
+408  North America North America
+409  South America South America
+410           Asia          Asia
+411  North America North America
+412  North America North America
+413  South America South America
+414         Africa        Africa
+415  South America South America
+416  South America South America
+417           Asia          Asia
+418         Africa        Africa
+419         Africa        Africa
+420  North America North America
+421           Asia          Asia
+422  North America North America
+423  North America North America
+424  North America North America
+425  North America        Africa
+426  North America North America
+427  North America North America
+428  North America North America
+429           Asia          Asia
+430  North America North America
+431  North America North America
+432         Africa        Africa
+433  South America South America
+434  North America North America
+435           Asia          Asia
+436           Asia          Asia
+437  South America South America
+438  South America South America
+439  North America North America
+440  North America North America
+441  North America North America
+442           Asia          Asia
+443  North America North America
+444  South America South America
+445  South America South America
+446           Asia          Asia
+447  North America North America
+448  North America North America
+449  North America North America
+450  South America South America
+451  North America North America
+452         Africa        Africa
+453  South America South America
+454  North America North America
+455  North America North America
+456           Asia          Asia
+457  North America North America
+458  North America North America
+459  North America North America
+460  North America North America
+461  North America North America
+462           Asia          Asia
+463  North America North America
+464  South America South America
+465           Asia          Asia
+466  North America North America
+467           Asia          Asia
+468           Asia          Asia
+469         Africa        Africa
+470  North America North America
+471           Asia          Asia
+472  South America South America
+473         Africa        Africa
+474         Africa        Africa
+475  North America South America
+476  North America North America
+477         Africa        Africa
+478  North America North America
+479           Asia          Asia
+480  North America North America
+481         Africa        Africa
+482  North America North America
+483  North America North America
+484  North America North America
+485  South America South America
+486  South America South America
+487  North America North America
+488  North America North America
+489  South America South America
+490         Africa        Africa
+491  North America North America
+492  South America South America
+493  North America North America
+494  North America North America
+495  South America North America
+496  North America North America
+497  South America South America
+498  North America North America
+499           Asia          Asia
+500  South America South America
+501  North America North America
+502         Africa        Africa
+503         Africa        Africa
+504  South America South America
+505  South America South America
+506           Asia          Asia
+507  North America North America
+508  North America North America
+509         Africa        Africa
+510  South America South America
+511  North America North America
+512  South America South America
+513         Africa        Africa
+514  South America South America
+515         Africa        Africa
+516         Africa        Africa
+517  North America North America
+518  South America South America
+519  South America South America
+520  North America North America
+521  South America South America
+522         Africa        Africa
+523  South America South America
+524  South America South America
+525           Asia          Asia
+526  North America North America
+527  South America South America
+528  North America North America
+529  South America South America
+530  North America North America
+531  North America North America
+532  North America North America
+533  North America North America
+534  North America North America
+535  South America South America
+536           Asia          Asia
+537           Asia          Asia
+538           Asia          Asia
+539  North America North America
+540  South America South America
+541  South America South America
+542           Asia          Asia
+543  North America North America
+544  North America North America
+545  South America South America
+546  North America North America
+547  North America North America
+548  North America North America
+549  North America North America
+550  South America South America
+551         Africa        Africa
+552  North America North America
+553  North America North America
+554         Africa        Africa
+555  North America North America
+556  South America South America
+557  South America South America
+558  South America South America
+559  North America North America
+560  South America South America
+561  North America North America
+562  South America South America
+563  South America South America
+564  North America North America
+565  North America North America
+566  North America North America
+567  North America North America
+568  North America North America
+569  South America South America
+570  North America North America
+571  North America North America
+572  North America North America
+573  North America North America
+574  North America North America
+575  North America North America
+576  North America North America
+577           Asia          Asia
+578  North America North America
+579           Asia          Asia
+580         Africa        Africa
+581         Africa        Africa
+582  North America North America
+583  North America North America
+584  North America North America
+585           Asia          Asia
+586  North America North America
+587         Africa        Africa
+588  South America South America
+589         Africa        Africa
+590  North America North America
+591  North America North America
+592  South America South America
+593  North America North America
+594  North America North America
+595  North America North America
+596  North America North America
+597  South America South America
+598  North America North America
+599  North America North America
+600  North America North America
+601  North America North America
+602  South America North America
+603  South America South America
+604           Asia          Asia
+605  North America North America
+606  North America North America
+607  North America North America
+608  North America North America
+609  South America South America
+610  North America North America
+611  North America North America
+612  South America South America
+613  North America North America
+614           Asia          Asia
+615         Africa        Africa
+616           Asia          Asia
+617  South America South America
+618           Asia          Asia
+619  North America North America
+620  North America North America
+621  North America North America
+622  North America North America
+623  South America South America
+624           Asia          Asia
+625  North America North America
+626  North America North America
+627  North America North America
+628  North America North America
+629  North America North America
+630           Asia          Asia
+631  South America South America
+632  South America South America
+633           Asia          Asia
+634  South America South America
+635  South America South America
+636           Asia          Asia
+637  North America North America
+638           Asia          Asia
+639  South America South America
+640  South America South America
+641  South America South America
+642  South America South America
+643  North America North America
+644  South America South America
+645         Africa        Africa
+646  South America South America
+647  South America South America
+648           Asia          Asia
+649  South America North America
+650         Africa        Africa
+651  South America South America
+652         Africa        Africa
+653         Africa        Africa
+654  North America North America
+655  South America South America
+656  North America North America
+657  North America North America
+658  North America North America
+659  South America South America
+660           Asia          Asia
+661  North America North America
+662  South America South America
+663         Africa        Africa
+664           Asia          Asia
+665  South America South America
+666  South America South America
+667         Africa        Africa
+668  North America North America
+669  North America North America
+670  North America North America
+671  North America North America
+672           Asia          Asia
+673  South America South America
+674  South America South America
+675  South America South America
+676  North America North America
+677           Asia          Asia
+678  North America North America
+679  North America North America
+680  South America South America
+681           Asia          Asia
+682  North America North America
+683  North America North America
+684  South America South America
+685  South America South America
+686  North America North America
+687  North America North America
+688  North America North America
+689  North America North America
+690         Africa        Africa
+691  South America South America
+692  North America North America
+693  North America North America
+694         Africa        Africa
+695  South America South America
+696  South America South America
+697  North America North America
+698  South America South America
+699  South America South America
+700         Africa        Africa
+701  North America North America
+702  North America North America
+703  North America North America
+704         Africa        Africa
+705         Africa        Africa
+706  South America South America
+707           Asia          Asia
+708  North America North America
+709  North America North America
+710         Africa        Africa
+711  North America North America
+712           Asia          Asia
+713  South America South America
+714  North America North America
+715  South America South America
+716  North America North America
+717  North America North America
+718           Asia          Asia
+719  South America South America
+720           Asia          Asia
+721  North America North America
+722         Africa        Africa
+723  North America North America
+724  South America South America
+725         Africa        Africa
+726  North America North America
+727  North America North America
+728           Asia          Asia
+729         Africa        Africa
+730  South America South America
+731  North America North America
+732  North America North America
+733         Africa        Africa
+734  North America North America
+735           Asia          Asia
+736         Africa        Africa
+737  North America North America
+738  North America North America
+739  North America North America
+740  North America North America
+741  North America North America
+742  South America South America
+743  South America South America
+744  South America South America
+745         Africa        Africa
+746  North America North America
+747  South America South America
+748  South America South America
+749  South America South America
+750  North America North America
+751  North America North America
+752         Africa        Africa
+753  North America North America
+754  North America North America
+755         Africa        Africa
+756  North America North America
+757  South America South America
+758  North America North America
+759           Asia          Asia
+760  North America North America
+761  South America South America
+762           Asia          Asia
+763  North America North America
+764  South America South America
+765  North America North America
+766  North America North America
+767  North America North America
+768  North America North America
+769  North America North America
+770         Africa        Africa
+771           Asia          Asia
+772  South America South America
+773         Africa        Africa
+774  North America North America
+775  North America North America
+776  North America North America
+777  North America North America
+778  South America South America
+779  South America South America
+780  North America North America
+781  South America South America
+782  North America North America
+783  North America North America
+784           Asia          Asia
+785  South America South America
+786  North America North America
+787  North America North America
+788  South America South America
+789         Africa        Africa
+790         Africa        Africa
+791  South America South America
+792  North America North America
+793  North America North America
+794  North America North America
+795  North America North America
+796  North America North America
+797           Asia          Asia
+798  North America North America
+799         Africa        Africa
+800         Africa        Africa
+801         Africa        Africa
+802         Africa        Africa
+803  North America North America
+804         Africa        Africa
+805         Africa        Africa
+806         Africa        Africa
+807  North America North America
+808  North America North America
+809  North America North America
+810  North America North America
+811  North America North America
+812  North America North America
+813         Africa        Africa
+814  South America South America
+815         Africa        Africa
+816           Asia          Asia
+817  North America North America
+818  South America North America
+819  South America South America
+820           Asia          Asia
+821  North America North America
+822           Asia          Asia
+823  South America South America
+824  South America South America
+825  North America North America
+826  South America South America
+827         Africa        Africa
+828  North America North America
+829  South America South America
+830  North America North America
+831         Africa        Africa
+832  North America North America
+833  North America North America
+834  South America South America
+835         Africa        Africa
+836         Africa        Africa
+837  North America North America
+838  North America North America
+839  North America North America
+840  North America North America
+841  North America North America
+842  North America North America
+843  North America North America
+844  North America North America
+845  North America North America
+846  North America North America
+847           Asia North America
+848  North America North America
+849  North America North America
+850  North America North America
+851  North America North America
+852  North America North America
+853  North America North America
+854         Africa        Africa
+855  North America North America
+856  South America South America
+857  South America South America
+858  North America North America
+859  North America North America
+860  South America South America
+861  North America North America
+862  North America North America
+863  North America North America
+864  North America North America
+865  North America North America
+866         Africa        Africa
+867  South America South America
+868         Africa        Africa
+869  North America North America
+870  South America South America
+871  South America South America
+872           Asia          Asia
+873  South America South America
+874  North America North America
+875  South America South America
+876  South America South America
+877  South America South America
+878  North America North America
+879  North America North America
+880  South America South America
+881  North America North America
+882  South America South America
+883         Africa        Africa
+884  North America North America
+885           Asia          Asia
+886  South America South America
+887  North America North America
+888  South America South America
+889           Asia          Asia
+890  North America North America
+891           Asia          Asia
+892           Asia          Asia
+893  North America North America
+894  North America North America
+895           Asia          Asia
+896  South America South America
+897  North America North America
+898  North America North America
+899  North America North America
+900  North America North America
+901  North America North America
+902           Asia          Asia
+903  South America South America
+904  South America South America
+905  South America North America
+906  North America North America
+907           Asia          Asia
+908  South America South America
+909  North America North America
+910  North America North America
+911  South America South America
+912  North America North America
+913  South America South America
+914  North America North America
+915         Africa        Africa
+916  South America South America
+917           Asia          Asia
+918  South America South America
+919           Asia          Asia
+920           Asia          Asia
+921         Africa        Africa
+922  North America North America
+923  North America North America
+924  North America North America
+925         Africa        Africa
+926  North America North America
+927           Asia          Asia
+928  North America North America
+929  North America North America
+930  North America North America
+931  South America South America
+932  North America North America
+933  North America North America
+934  North America North America
+935  North America North America
+936         Africa        Africa
+937  North America North America
+938  North America North America
+939  North America North America
+940  South America South America
+941           Asia          Asia
+942  North America North America
+943  North America North America
+944         Africa        Africa
+945  South America South America
+946  South America South America
+947  North America North America
+948  North America North America
+949  North America North America
+950  South America South America
+951           Asia          Asia
+952  North America North America
+953  North America North America
+954  North America North America
+955  North America North America
+956  South America South America
+957  South America South America
+958  North America North America
+959  North America North America
+960           Asia          Asia
+961         Africa        Africa
+962  North America North America
+963  North America North America
+964         Africa        Africa
+965  North America North America
+966         Africa        Africa
+967  North America North America
+968           Asia          Asia
+969  North America North America
+970  North America North America
+971           Asia          Asia
+972         Africa        Africa
+973  North America North America
+974  North America North America
+975  South America South America
+976  North America North America
+977  North America North America
+978  South America South America
+979  North America North America
+980           Asia          Asia
+981  North America North America
+982  North America North America
+983  North America North America
+984  North America North America
+985  South America South America
+986  North America North America
+987         Africa        Africa
+988  North America          Asia
+989  North America North America
+990  North America North America
+991         Africa        Africa
+992           Asia          Asia
+993  South America South America
+994  South America South America
+995           Asia          Asia
+996           Asia          Asia
+997           Asia          Asia
+998  South America South America
+999         Africa        Africa
+1000          Asia          Asia
+1001 North America North America
+1002 North America North America
+1003 North America North America
+1004 South America South America
+1005 South America South America
+1006 North America North America
+1007 North America North America
+1008 North America North America
+1009 North America North America
+1010 North America North America
+1011 North America North America
+1012 North America North America
+1013 North America North America
+1014 North America North America
+1015          Asia          Asia
+1016 North America North America
+1017        Africa        Africa
+1018 North America North America
+1019 North America North America
+1020 South America South America
+1021 North America North America
+1022 South America South America
+1023          Asia          Asia
+1024 North America North America
+1025 South America South America
+1026          Asia          Asia
+1027 North America North America
+1028          Asia          Asia
+1029 South America South America
+1030 South America South America
+1031        Africa        Africa
+1032 North America North America
+1033 North America North America
+1034 North America North America
+1035 South America South America
+1036 North America North America
+1037 South America South America
+1038 South America South America
+1039 North America North America
+1040 South America South America
+1041 North America North America
+1042        Africa        Africa
+1043 North America North America
+1044 North America North America
+1045 North America North America
+1046        Africa        Africa
+1047 North America North America
+1048 South America South America
+1049 North America North America
+1050 North America North America
+1051 North America North America
+1052          Asia          Asia
+1053 North America North America
+1054          Asia          Asia
+1055 South America South America
+1056 North America North America
+1057          Asia          Asia
+1058 South America South America
+1059          Asia          Asia
+1060          Asia          Asia
+1061 South America South America
+1062 South America South America
+1063 North America North America
+1064          Asia          Asia
+1065        Africa        Africa
+1066 North America North America
+1067 North America North America
+1068 South America South America
+1069 North America North America</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pred_forest_test <span class="ot">&lt;-</span> test <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(continent) <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_cols</span>(</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">predict</span>(mod_forest, <span class="at">new_data =</span> test, <span class="at">type =</span> <span class="st">"class"</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>pred_forest_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        continent   .pred_class
+1   South America North America
+2   South America North America
+3   South America South America
+4   South America North America
+5   South America South America
+6   South America North America
+7   South America North America
+8   South America        Africa
+9   South America        Africa
+10  South America North America
+11  South America North America
+12  South America North America
+13  South America North America
+14  South America North America
+15  South America        Africa
+16  South America North America
+17  South America South America
+18  South America North America
+19  South America South America
+20  South America South America
+21  South America North America
+22  South America North America
+23  South America          Asia
+24  South America          Asia
+25  South America North America
+26  South America South America
+27  South America North America
+28  South America North America
+29  South America South America
+30         Africa South America
+31           Asia North America
+32           Asia North America
+33           Asia North America
+34           Asia North America
+35           Asia South America
+36           Asia North America
+37  South America North America
+38  South America North America
+39  South America North America
+40  South America North America
+41  South America South America
+42  South America          Asia
+43  South America North America
+44  South America North America
+45  South America North America
+46  South America        Africa
+47  South America        Africa
+48  South America        Africa
+49  South America South America
+50  South America North America
+51  South America South America
+52  South America South America
+53  South America          Asia
+54  South America        Africa
+55  South America South America
+56  South America South America
+57  South America North America
+58  South America North America
+59  South America South America
+60  South America        Africa
+61  South America          Asia
+62  South America North America
+63  South America South America
+64  South America North America
+65  South America          Asia
+66  South America North America
+67  South America North America
+68  South America        Africa
+69  North America North America
+70  North America North America
+71  North America North America
+72  North America North America
+73  North America North America
+74  North America North America
+75  North America North America
+76  North America        Africa
+77  North America          Asia
+78  North America        Africa
+79  North America North America
+80  North America          Asia
+81  North America South America
+82  North America        Africa
+83  North America South America
+84  North America South America
+85  North America South America
+86  South America North America
+87  North America North America
+88  North America North America
+89  North America          Asia
+90  North America North America
+91  North America        Africa
+92         Africa        Africa
+93         Africa        Africa
+94         Africa North America
+95         Africa        Africa
+96         Africa        Africa
+97         Africa        Africa
+98         Africa        Africa
+99         Africa South America
+100        Africa        Africa
+101 North America North America
+102 North America South America
+103 North America North America
+104 North America North America
+105 North America North America
+106 North America North America
+107 North America South America
+108 North America North America
+109 North America North America
+110 North America North America
+111 North America North America
+112 North America North America
+113 North America South America
+114 North America North America
+115 North America North America
+116 North America North America
+117 North America North America
+118 North America North America
+119 North America North America
+120 North America North America
+121 North America North America
+122 North America North America
+123 North America North America
+124 North America North America
+125 North America North America
+126 North America North America
+127 North America South America
+128 North America North America
+129 North America North America
+130 North America North America
+131 North America North America
+132 North America North America
+133 North America North America
+134 North America North America
+135 North America North America
+136 North America          Asia
+137 North America South America
+138 North America North America
+139 North America North America
+140 North America North America
+141 North America North America
+142 North America          Asia
+143 North America North America
+144          Asia          Asia
+145          Asia        Africa
+146          Asia          Asia
+147          Asia          Asia
+148          Asia          Asia
+149          Asia North America
+150          Asia North America
+151          Asia North America
+152          Asia South America
+153          Asia North America
+154        Africa South America
+155        Africa North America
+156        Africa South America
+157        Africa North America
+158        Africa          Asia
+159        Africa          Asia
+160        Africa North America
+161        Africa North America
+162        Africa North America
+163        Africa North America
+164        Africa South America
+165 North America North America
+166 North America North America
+167 North America North America
+168 North America South America
+169 North America North America
+170 North America North America
+171 North America North America
+172 North America          Asia
+173 North America North America
+174 North America North America
+175 North America        Africa
+176 North America North America
+177 North America North America
+178 North America North America
+179 North America        Africa
+180 North America North America
+181 North America South America
+182 North America        Africa
+183 North America North America
+184 North America        Africa
+185 North America North America
+186 North America North America
+187 North America        Africa
+188 North America North America
+189 North America North America
+190 North America North America
+191 North America North America
+192 North America North America
+193 North America North America
+194 North America South America
+195 North America North America
+196 North America North America
+197 North America North America
+198 North America South America
+199 North America North America
+200 North America        Africa
+201 North America North America
+202 North America North America
+203 North America North America
+204 North America North America
+205 North America North America
+206 North America North America
+207 North America South America
+208 North America North America
+209          Asia North America
+210 North America        Africa
+211 North America North America
+212 North America North America
+213 North America North America
+214 North America North America
+215 North America North America
+216 North America South America
+217 North America North America
+218 North America North America
+219 South America North America
+220 South America North America
+221          Asia North America
+222 North America North America
+223          Asia South America
+224          Asia North America
+225          Asia South America
+226          Asia South America
+227          Asia North America
+228          Asia North America
+229          Asia North America
+230          Asia North America
+231          Asia North America
+232          Asia North America
+233          Asia        Africa
+234          Asia          Asia
+235        Africa South America
+236        Africa North America
+237        Africa South America
+238        Africa North America
+239        Africa North America
+240          Asia North America
+241          Asia North America
+242          Asia North America
+243          Asia North America
+244          Asia North America
+245          Asia South America
+246          Asia North America
+247          Asia          Asia
+248        Africa South America
+249        Africa South America
+250        Africa        Africa
+251        Africa        Africa
+252        Africa South America
+253        Africa South America
+254 North America North America
+255 North America          Asia
+256 North America        Africa
+257 North America North America
+258 North America North America
+259 North America South America
+260 North America North America
+261 North America North America
+262 North America North America
+263 North America North America
+264 North America North America
+265 North America North America
+266 North America          Asia
+267          Asia South America
+268          Asia South America</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(pred_forest, continent, .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric  .estimator .estimate
+  &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+1 accuracy multiclass     0.985</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">accuracy</span>(pred_forest_test, continent, .pred_class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .metric  .estimator .estimate
+  &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+1 accuracy multiclass     0.470</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>randomForest<span class="sc">::</span><span class="fu">importance</span>(mod_forest<span class="sc">$</span>fit) <span class="sc">%&gt;%</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(<span class="at">rownames =</span> <span class="st">"variable"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(MeanDecreaseGini))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  variable  MeanDecreaseGini
+  &lt;chr&gt;                &lt;dbl&gt;
+1 Total               254.  
+2 Aroma               148.  
+3 Acidity             138.  
+4 Flavor              125.  
+5 Sweetness            20.8 
+6 Species               7.44</code></pre>
+</div>
+</div>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

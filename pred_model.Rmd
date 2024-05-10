@@ -6,41 +6,57 @@ date: "2024-04-24"
 
 ```{r message = F}
 library(tmap)
-library(tidyverse)
 library(sf)
-data("World")
+library(tidyverse)
+library(rpart)
+library(tidymodels)
+library(randomForest)
+library(caret)
 ```
 
 ```{r message = F}
+data("World")
+
 countries <- World %>%
   st_drop_geometry() %>%
-  select(name, iso_a3, continent) %>%
-  rename("Country of Origin" = name)
+  select(name, continent) %>%
+  filter(continent %in% c("North America", "South America", "Asia", "Africa")) %>%  
+  rename("Country" = name) %>%
+  mutate(continent = as.character(continent)) %>% # So I can assign Mauritius a continent
+  mutate(Country = as.character(Country))
 
 merged <- read_csv("data/merged_data_cleaned.csv") %>%
-  rename("Country of Origin" = Country.of.Origin,
-         "Total Cup Points" = Total.Cup.Points) %>%
-  mutate(`Country of Origin` = recode(`Country of Origin`,
+  rename("Country" = Country.of.Origin,
+         "Total" = Total.Cup.Points) %>%
+  mutate(Country = recode(Country,
                                       "Cote d?Ivoire" = "Cote d'Ivoire",
                                       "Tanzania, United Republic Of" = "Tanzania",
                                       "Laos" = "Lao PDR",
                                       "United States (Puerto Rico)" = "Puerto Rico",
                                       "United States (Hawaii)" = "United States")) %>% 
-  filter(`Country of Origin` != "Mauritius") %>% 
-  filter(!is.na(`Country of Origin`)) %>%
-  group_by(`Country of Origin`)
+  filter(!is.na(Country)) %>%
+  group_by(Country) %>%
+  mutate(Country = as.character(Country))
 
 both_world <- merge(countries, merged, 
-                    by.x = "Country of Origin", by.y = "Country of Origin", 
-                    all.x = TRUE, all.y = TRUE)
+                    by.x = "Country", by.y = "Country", 
+                    all.x = TRUE, all.y = TRUE) 
 
-coffee <- both_world[complete.cases(both_world$Species), ] %>%
-  group_by(continent)
+coffee <- both_world %>%
+  filter(complete.cases(Species, Acidity, Aroma, Flavor, Sweetness, Total)) %>%
+  mutate(continent = ifelse(Country == "Mauritius", "Africa", continent)) %>%
+  filter(continent %in% c("North America", "South America", "Asia", "Africa")) %>%
+  mutate(Species = as.factor(Species))
+
+coffee$continent <- factor(coffee$continent) # Changing it back to factor
+
+class(coffee$continent)
+  
+#There was one observation for Oceania so i filtered to only include the other four continents present in the data. I had to assign Mauritius a continent since it's not in the world data set, requiring me to change the continent variable from factor, to character, back to factor.
+
 ```
 
 ```{r}
-library(tidymodels)
-
 coffee_parts <- coffee %>%
   initial_split(prop = 0.8)
 
@@ -49,19 +65,93 @@ train <- coffee_parts %>%
 
 test <- coffee_parts %>%
   testing()
+
+new_test <- test %>%
+  select(-continent)
+
+new_train <- train %>%
+  select(-continent)
+
+train %>%
+  count(continent) %>%
+  mutate(pct = n / nrow(train))
+```
+
+
+```{r}
+form_all <- as.formula(
+  "continent ~ Sweetness + Acidity + Total + Flavor + Aroma + Species"
+)
+
+mod_tree_all <- decision_tree(mode = "classification") %>%
+  set_engine("rpart") %>%
+  fit(form_all, data = train)
+mod_tree_all
+
+
+printcp(mod_tree_all$fit)
+
+pred_all <- train %>%
+  select(continent) %>%
+  bind_cols(
+    predict(mod_tree_all, new_data = train, type = "class")
+  ) %>%
+  rename(continent_dtree = .pred_class)
+pred_all
+
+predict_new <- test %>%
+  select(continent) %>%
+  bind_cols(
+    predict(mod_tree_all, new_data = new_test, type = "class")
+  ) %>%
+  rename(continent_dtree = .pred_class)
+predict_new
+
+accuracy(pred_all, continent, continent_dtree)
+accuracy(predict_new, continent, continent_dtree)
+
+conf_matrix <- pred_all %>% 
+  conf_mat(truth = continent, estimate = continent_dtree)
+conf_matrix
 ```
 
 ```{r}
-train %>%
-  count(continent) %>%
-  mutate(pct = n / sum(n))
+mod_forest <- rand_forest(
+  mode = "classification", 
+  mtry = 6, 
+  trees = 250) %>%
+    set_engine("randomForest") %>%
+      fit(formula = form_all, data = train)
 
-mod_null <- multinom_reg(mode = "classification") %>%
-  set_engine("glmnet") %>%
-  fit(continent ~ 1, data = train)
+pred_forest <- train %>%
+  select(continent) %>%
+  bind_cols(
+    predict(mod_forest, new_data = train, type = "class")
+  ) 
+pred_forest
 
-mod_null
+pred_forest_train <- train %>%
+  select(continent) %>%
+  bind_cols(
+    predict(mod_forest, new_data = new_train, type = "class")
+  ) 
+pred_forest_train
+
+pred_forest_test <- test %>%
+  select(continent) %>%
+  bind_cols(
+    predict(mod_forest, new_data = test, type = "class")
+  ) 
+pred_forest_test
+
+accuracy(pred_forest, continent, .pred_class)
+accuracy(pred_forest_test, continent, .pred_class)
+
+randomForest::importance(mod_forest$fit) %>% 
+  as_tibble(rownames = "variable") %>%
+    arrange(desc(MeanDecreaseGini))
 ```
+
 
 
 

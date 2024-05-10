@@ -1,12 +1,11 @@
 ---
 title: "Project 2"
 subtitle: "Proposal"
-authors: "Prasiddhi Thapaliya"
 format: html
 editor: visual
 ---
 
-```{r load-packages}
+```{r load-packages, include = F}
 #| label: load-pkgs
 #| message: false
 #| warning: false

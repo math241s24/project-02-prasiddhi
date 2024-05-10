@@ -4,4 +4,6 @@ format: html
 editor: visual
 ---
 
-This project was developed by Prasiddhi Thapaliya for [MATH/STAT241](https://aallorant.github.io/math241s24/) at Reed College.
+This project was developed by Prasiddhi Thapaliya (@prasiddth) for [MATH/STAT241](https://aallorant.github.io/math241s24/) at Reed College. The project uses data from a coffee reviews dataset from GitHub user @jldbc to compare coffee flavor traits by country of origin.
+
+When viewing the R files, open the project file first (project-02.Rproj). This will allow all data from .csv files to be imported without needing to change file pathways.

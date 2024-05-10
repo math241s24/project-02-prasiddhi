@@ -10,7 +10,7 @@ execute:
   echo: false
 ---
 
-## Research Question 
+## Research Question
 
 #### Do coffees grown in certain countries/regions produce different flavor profiles?
 

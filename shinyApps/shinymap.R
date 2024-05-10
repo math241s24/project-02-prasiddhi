@@ -1,10 +1,4 @@
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-# http://shiny.rstudio.com/
-#
+
 library(shiny)
 library(tmap)
 library(tmaptools)
@@ -12,7 +6,6 @@ library(tidyverse)
 library(rsconnect)
 data("World")
 
-#datasets
 countries <- World %>%
   select(name, iso_a3) %>%
   rename("Country of Origin" = name)
@@ -37,8 +30,8 @@ arabica <- read_csv("data/arabica_data_cleaned.csv") %>%
             `Total Cup Points` = mean(`Total Cup Points`)) 
 
 arabica_world <- merge(countries, arabica, 
-      by.x = "Country of Origin", by.y = "Country of Origin", 
-      all.x = TRUE, all.y = TRUE)
+                       by.x = "Country of Origin", by.y = "Country of Origin", 
+                       all.x = TRUE, all.y = TRUE)
 
 robusta <- read_csv("data/robusta_data_cleaned.csv") %>%
   rename("Country of Origin" = Country.of.Origin,
@@ -79,11 +72,11 @@ merged <- read_csv("data/merged_data_cleaned.csv") %>%
             `Total Cup Points` = mean(`Total Cup Points`))
 
 both_world <- merge(countries, arabica, 
-                       by.x = "Country of Origin", by.y = "Country of Origin", 
-                       all.x = TRUE, all.y = TRUE)
+                    by.x = "Country of Origin", by.y = "Country of Origin", 
+                    all.x = TRUE, all.y = TRUE)
 
+# Shiny app 
 
-#Shinyapp
 if (require("shiny")) {
   
   arabica_vars <- setdiff(names(arabica_world), c("Country of Origin", "geometry", "iso_a3"))
