@@ -1,9 +1,3 @@
----
-editor: 
-  markdown: 
-    wrap: 72
----
-
 This is a folder containing:
 
 -   the three csv files for each coffee species
